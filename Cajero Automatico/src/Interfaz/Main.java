@@ -18,23 +18,33 @@ import javax.swing.Timer;
  * @author jhess
  */
 public class Main extends javax.swing.JFrame {
-
+    static InicioUsuario init = new InicioUsuario();
+       
     /**
      * Creates new form Main
      */
     public Main() {
         initComponents();
-        this.setLocationRelativeTo(this);
-        Time ventana = new Time();
-        Tiempo.add(ventana);
-        ventana.show();
-        btnAd.setOpaque(false);
-        btnAd.setBorderPainted(false);
-        btnAd.setContentAreaFilled(false);
-        btnIng.setOpaque(false);
-        btnIng.setBorderPainted(false);
-        btnIng.setContentAreaFilled(false);
         BarraAdmin();
+        this.setLocationRelativeTo(this);
+        Tiempo.add(init);
+        init.setVisible(false);
+       // Time ventana = new Time();
+//        Tiempo.add(ventana);
+//        ventana.show();
+       
+        //Tiempo.add(ventana);
+//        InicioUsuario init = new InicioUsuario();
+//        Tiempo.add(init);
+//        init.show();
+        //ventana.setVisible(true);
+//        btnAd.setOpaque(false);
+//        btnAd.setBorderPainted(false);
+//        btnAd.setContentAreaFilled(false);
+//        btnIng.setOpaque(false);
+//        btnIng.setBorderPainted(false);
+//        btnIng.setContentAreaFilled(false);
+
     }
 
     /**
@@ -65,12 +75,7 @@ public class Main extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnAd = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
         Tiempo = new javax.swing.JDesktopPane();
-        btnIng = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -182,62 +187,21 @@ public class Main extends javax.swing.JFrame {
         });
         jPanel3.add(btnAd, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 10, 130, 40));
 
-        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
         Tiempo.setPreferredSize(new java.awt.Dimension(260, 70));
 
         javax.swing.GroupLayout TiempoLayout = new javax.swing.GroupLayout(Tiempo);
         Tiempo.setLayout(TiempoLayout);
         TiempoLayout.setHorizontalGroup(
             TiempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 260, Short.MAX_VALUE)
+            .addGap(0, 790, Short.MAX_VALUE)
         );
         TiempoLayout.setVerticalGroup(
             TiempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGap(0, 550, Short.MAX_VALUE)
         );
 
-        jPanel4.add(Tiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 500, 260, 50));
+        jPanel3.add(Tiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 790, 550));
         Tiempo.getAccessibleContext().setAccessibleName("");
-
-        btnIng.setFont(new java.awt.Font("Castellar", 1, 18)); // NOI18N
-        btnIng.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/Ingresar.png"))); // NOI18N
-        btnIng.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnIng.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnIng.setOpaque(false);
-        btnIng.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIngActionPerformed(evt);
-            }
-        });
-        jPanel4.add(btnIng, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 120, 220, 170));
-
-        jButton1.setBackground(new java.awt.Color(0, 153, 0));
-        jButton1.setFont(new java.awt.Font("Castellar", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("INGRESAR");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel4.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 320, 220, 50));
-
-        jLabel17.setFont(new java.awt.Font("Castellar", 2, 18)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel17.setText("POR FAVOR INGRESE SUS CREDENCIALES PARA GESTIONAR SU CUENTA");
-        jPanel4.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, -1, -1));
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/backgr.jpg"))); // NOI18N
-        jLabel1.setOpaque(true);
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
-            }
-        });
-        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 790, 550));
-
-        jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 790, 550));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 1000, 550));
 
@@ -279,10 +243,13 @@ public class Main extends javax.swing.JFrame {
             x=0;
            // fecha.start();
         }
+
+       
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         // TODO add your handling code here:
+        //init.setVisible(true);
         Login vt = new Login();
         vt.setVisible(true);
         if( x == 0){
@@ -306,30 +273,11 @@ public class Main extends javax.swing.JFrame {
         }        
     }//GEN-LAST:event_jLabel3MouseClicked
 
-    private void btnIngActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngActionPerformed
-        // TODO add your handling code here:
-//        Login vt = new Login();
-//        vt.setVisible(true);
-        Login vt = new Login();
-        vt.setVisible(true);
-
-    }//GEN-LAST:event_btnIngActionPerformed
-
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel1MouseClicked
-
     private void btnAdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdActionPerformed
         // TODO add your handling code here:
         Login vt = new Login();
         vt.setVisible(true);
     }//GEN-LAST:event_btnAdActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        Login vt = new Login();
-        vt.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -362,6 +310,7 @@ public class Main extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Main().setVisible(true);
+                init.setVisible(true);
             }
         });
     }
@@ -369,9 +318,6 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane Tiempo;
     private javax.swing.JButton btnAd;
-    private javax.swing.JButton btnIng;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -379,7 +325,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -391,9 +336,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     // End of variables declaration//GEN-END:variables
-
+    
+    
     public void BarraAdmin(){
         if( x == 210){
             jPanel2.setSize(210,559);
