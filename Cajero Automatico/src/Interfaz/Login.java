@@ -6,6 +6,14 @@
 package Interfaz;
 
 import AssetsLogin.TextPrompt;
+import clases.usuarios;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,16 +21,103 @@ import AssetsLogin.TextPrompt;
  */
 public class Login extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Login
-     */
+
+    ArrayList <usuarios>Listausuarios=new ArrayList<>();
+
+    public ArrayList<usuarios> getListausuarios() {
+        return Listausuarios;
+    }
+
+    public void setListausuarios(ArrayList<usuarios> Listausuarios) {
+        this.Listausuarios = Listausuarios;
+    }
+    
+
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
-        TextPrompt User = new TextPrompt("Numero de Tarjeta",jTextField1);
-        TextPrompt Pass = new TextPrompt("Contraseña",jPasswordField1);
+        TextPrompt User = new TextPrompt("Numero de Tarjeta", txtarjeta);
+        TextPrompt Pass = new TextPrompt("Contraseña", jpassword);
+        
     }
 
+    public void AgregarDatos(File f) {
+        String a = "";
+        String TipoUser = "";
+        String token = "";
+        try {
+            FileReader Fr = new FileReader(f);
+            BufferedReader Br = new BufferedReader(Fr);
+            
+            
+            while ((a = Br.readLine()) != null) {
+
+                int cnt = 0;
+                String[] Usuarios = new String[6];
+                for (int x = 0; x < a.length(); x++) {
+                    char c = a.charAt(x);
+                    var regex = "\t";
+                    if (!Pattern.matches(regex, String.valueOf(c))) {
+                        TipoUser += String.valueOf(c);
+                    } else {
+                        if (cnt == 0) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        if (cnt == 1) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        if (cnt == 2) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        if (cnt == 3) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        if (cnt == 4) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        if (cnt == 5) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        cnt++;
+                        TipoUser ="";
+                    }
+                }
+                 Listausuarios.add(new usuarios(Usuarios[0],Usuarios[1],Usuarios[2],Usuarios[3],Usuarios[4],Usuarios[5]));
+                 //JOptionPane.showMessageDialog(null,Listausuarios.get(0).getNombre());
+            }
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "No se Encontro el Archivo", "ERROR", 2);
+        }
+    }
+
+    public String Lector(File a) {
+        String texto = "";
+        String b = "";
+        int fila = 0;
+        try {
+            FileReader Fr = new FileReader(a);
+            BufferedReader Br = new BufferedReader(Fr);
+            while ((b = Br.readLine()) != null) {
+                fila++;
+                texto += b + "\n";
+            }
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, ex, "No se Encontro", HEIGHT);
+        }
+        return texto;
+    }
+
+//    public void login(){
+//        String tarjeta="",contraseña="";
+//        for(int i=0;i<jpassword.getPassword().length;i++){
+//            contraseña+=jpassword.getPassword()[i];
+//        }
+//        tarjeta = txtarjeta.getText();
+//        
+//        
+//    
+//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,8 +129,8 @@ public class Login extends javax.swing.JFrame {
 
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        txtarjeta = new javax.swing.JTextField();
+        jpassword = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -54,18 +149,18 @@ public class Login extends javax.swing.JFrame {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AssetsLogin/pass.png"))); // NOI18N
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 330, 30, 30));
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtarjeta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtarjetaActionPerformed(evt);
             }
         });
-        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtarjeta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField1KeyReleased(evt);
+                txtarjetaKeyReleased(evt);
             }
         });
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 280, 200, 30));
-        getContentPane().add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 330, 200, 30));
+        getContentPane().add(txtarjeta, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 280, 200, 30));
+        getContentPane().add(jpassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 330, 200, 30));
 
         jButton1.setBackground(new java.awt.Color(0, 153, 102));
         jButton1.setFont(new java.awt.Font("Castellar", 0, 12)); // NOI18N
@@ -99,13 +194,13 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+    private void txtarjetaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtarjetaKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1KeyReleased
+    }//GEN-LAST:event_txtarjetaKeyReleased
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtarjetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtarjetaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtarjetaActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -113,8 +208,14 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        
+        String tarjeta = "", contraseña = "";
+
+        tarjeta = txtarjeta.getText();
+        for (int i = 0; i < jpassword.getPassword().length; i++) {
+            contraseña += jpassword.getPassword()[i];
+        }
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -159,7 +260,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPasswordField jpassword;
+    private javax.swing.JTextField txtarjeta;
     // End of variables declaration//GEN-END:variables
 }

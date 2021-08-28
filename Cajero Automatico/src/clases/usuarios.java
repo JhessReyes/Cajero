@@ -11,24 +11,39 @@ package clases;
  */
 public class usuarios {
 
-    private int idUsuario = 0;
-    private String Nombre = "Admin1";
-    private String Apellido = "Admin1";
-    private String Password = "000000";
-    private int NumTarjeta = 0;
-    private String TipoUsuario = "Admin";
+    private String idUsuario = "";
+    private String Nombre = "";
+    private String Apellido = "";
+    private String Password = "";
+    private String NumTarjeta = "";
+    private String TipoUsuario = "";
+
+    public usuarios(String id, String nombre, String apellido, String password, String tarjeta, String Tusuario) {
+    
+        this.idUsuario=id;
+        this.Nombre=nombre;
+        this.Apellido=apellido;
+        this.Password=password;
+        this.NumTarjeta = tarjeta;
+        this.TipoUsuario = Tusuario;
+    
+    
+   
+    }
+    
+    
 
     /**
      * @return the idUsuario
      */
-    public int getIdUsuario() {
+    public String getIdUsuario() {
         return idUsuario;
     }
 
     /**
      * @param idUsuario the idUsuario to set
      */
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
     }
 
@@ -77,14 +92,14 @@ public class usuarios {
     /**
      * @return the NumTarjeta
      */
-    public int getNumTarjeta() {
+    public String getNumTarjeta() {
         return NumTarjeta;
     }
 
     /**
      * @param NumTarjeta the NumTarjeta to set
      */
-    public void setNumTarjeta(int NumTarjeta) {
+    public void setNumTarjeta(String NumTarjeta) {
         this.NumTarjeta = NumTarjeta;
     }
 

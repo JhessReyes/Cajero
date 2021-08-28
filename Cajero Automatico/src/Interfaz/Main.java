@@ -7,6 +7,7 @@ package Interfaz;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,7 +24,15 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
+    
+    File uses = new File("usuarios.txt");
+    
     public Main() {
+        Login op = new Login();
+        op.AgregarDatos(uses);
+       
+        
+        
         initComponents();
         BarraAdmin();
         this.setLocationRelativeTo(this);
@@ -46,7 +55,11 @@ public class Main extends javax.swing.JFrame {
 //        btnIng.setContentAreaFilled(false);
 
     }
-
+    
+    
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
