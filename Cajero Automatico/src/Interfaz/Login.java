@@ -6,6 +6,8 @@
 package Interfaz;
 
 import AssetsLogin.TextPrompt;
+import static Interfaz.Main.gest;
+import static Interfaz.Main.init;
 import clases.usuarios;
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,8 +23,8 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
 
-
-    ArrayList <usuarios>Listausuarios=new ArrayList<>();
+    File uses = new File("usuarios.txt");
+    ArrayList<usuarios> Listausuarios = new ArrayList<>();
 
     public ArrayList<usuarios> getListausuarios() {
         return Listausuarios;
@@ -31,14 +33,14 @@ public class Login extends javax.swing.JFrame {
     public void setListausuarios(ArrayList<usuarios> Listausuarios) {
         this.Listausuarios = Listausuarios;
     }
-    
 
     public Login() {
+        AgregarDatos(uses);
         initComponents();
         this.setLocationRelativeTo(null);
         TextPrompt User = new TextPrompt("Numero de Tarjeta", txtarjeta);
         TextPrompt Pass = new TextPrompt("Contraseña", jpassword);
-        
+
     }
 
     public void AgregarDatos(File f) {
@@ -48,8 +50,7 @@ public class Login extends javax.swing.JFrame {
         try {
             FileReader Fr = new FileReader(f);
             BufferedReader Br = new BufferedReader(Fr);
-            
-            
+
             while ((a = Br.readLine()) != null) {
 
                 int cnt = 0;
@@ -75,15 +76,21 @@ public class Login extends javax.swing.JFrame {
                         if (cnt == 4) {
                             Usuarios[cnt] = TipoUser;
                         }
-                        if (cnt == 5) {
-                            Usuarios[cnt] = TipoUser;
-                        }
+
+//                        if (cnt == 5) {
+//                            Usuarios[cnt] = TipoUser;
+//                        }
+
                         cnt++;
-                        TipoUser ="";
+                        TipoUser = "";
+
+                    }
+                    if (cnt == 5) {
+                        Usuarios[cnt] = TipoUser;
                     }
                 }
-                 Listausuarios.add(new usuarios(Usuarios[0],Usuarios[1],Usuarios[2],Usuarios[3],Usuarios[4],Usuarios[5]));
-                 //JOptionPane.showMessageDialog(null,Listausuarios.get(0).getNombre());
+                Listausuarios.add(new usuarios(Usuarios[0], Usuarios[1], Usuarios[2], Usuarios[3], Usuarios[4], Usuarios[5]));
+                //JOptionPane.showMessageDialog(null,Listausuarios.get(0).getNombre());
             }
 
         } catch (IOException ex) {
@@ -108,16 +115,47 @@ public class Login extends javax.swing.JFrame {
         return texto;
     }
 
-//    public void login(){
-//        String tarjeta="",contraseña="";
-//        for(int i=0;i<jpassword.getPassword().length;i++){
-//            contraseña+=jpassword.getPassword()[i];
-//        }
-//        tarjeta = txtarjeta.getText();
-//        
-//        
-//    
-//    }
+    public void iniciosecion() {
+        String tarjeta = "", contraseña = "";
+        for (int i = 0; i < jpassword.getPassword().length; i++) {
+            contraseña += jpassword.getPassword()[i];
+        }
+        tarjeta = txtarjeta.getText();
+
+        for (int i = 0; i < Listausuarios.size(); i++) {
+            if (Listausuarios.get(i).getNumTarjeta().equals(tarjeta)) {
+                if (Listausuarios.get(i).getPassword().equals(contraseña)) {
+                    //JOptionPane.showMessageDialog(null, "BIENVENIDO");
+                    tiposusuarios();
+                }
+            }
+        }
+
+    }
+
+    public void tiposusuarios() {
+        String tarjeta = txtarjeta.getText();
+        int cnt = 0;
+        for (int i = 0; i < Listausuarios.size(); i++) {
+            if (Listausuarios.get(i).getNumTarjeta().equals(tarjeta)) {
+
+                if (Listausuarios.get(cnt).getTipoUsuario().equals("admin")) {
+                    //JOptionPane.showMessageDialog(null, "BIENBENIDO ADMIN");
+                     this.setVisible(false);
+                     init.setVisible(false);
+                     gest.setVisible(true);
+                }
+
+                if (Listausuarios.get(cnt).getTipoUsuario().equals("usuario")) {
+                    JOptionPane.showMessageDialog(null, "BIENBENIDO USUARIOS");
+                }
+
+            }
+            cnt++;
+        }
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -208,13 +246,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String tarjeta = "", contraseña = "";
-
-        tarjeta = txtarjeta.getText();
-        for (int i = 0; i < jpassword.getPassword().length; i++) {
-            contraseña += jpassword.getPassword()[i];
-        }
-
+        iniciosecion();
 
     }//GEN-LAST:event_jButton1ActionPerformed
 

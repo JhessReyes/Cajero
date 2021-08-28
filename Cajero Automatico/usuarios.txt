@@ -1,1 +1,2 @@
 00	admin1	ad	0000	admin	admin
+01	usuario	us	1111	usuario	usuario

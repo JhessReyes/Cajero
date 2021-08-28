@@ -20,24 +20,22 @@ import javax.swing.Timer;
  */
 public class Main extends javax.swing.JFrame {
     static InicioUsuario init = new InicioUsuario();
-       
+     static gestionadmin gest = new gestionadmin();  
     /**
      * Creates new form Main
      */
     
-    File uses = new File("usuarios.txt");
+    
     
     public Main() {
-        Login op = new Login();
-        op.AgregarDatos(uses);
        
-        
-        
         initComponents();
         BarraAdmin();
         this.setLocationRelativeTo(this);
         Tiempo.add(init);
         init.setVisible(false);
+        Tiempo.add(gest);
+        gest.setVisible(false);
        // Time ventana = new Time();
 //        Tiempo.add(ventana);
 //        ventana.show();
