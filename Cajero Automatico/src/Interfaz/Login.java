@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
@@ -144,6 +146,8 @@ public class Login extends javax.swing.JFrame {
                      this.setVisible(false);
                      init.setVisible(false);
                      gest.setVisible(true);
+                     
+                    
                 }
 
                 if (Listausuarios.get(cnt).getTipoUsuario().equals("usuario")) {
@@ -155,6 +159,12 @@ public class Login extends javax.swing.JFrame {
         }
 
     }
+    
+    
+    
+    
+
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

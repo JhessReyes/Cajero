@@ -10,43 +10,57 @@ package clases;
  * @author ASUS
  */
 public class TarjetaUsuario {
+    
+    
+    
+    private String NumTarjeta = "";
+    private String idUsuario = "";
+    private String Nombre = "";
+    private String Apellido = "";
+    private int Saldo = 0;
+    private String Fecha_Deposito = "";
+    private String Fecha_Retiro = "";
+    private int Limite = 0;
+    
+    
+    public TarjetaUsuario(String ntj, String iduses, String nomb, String apell, int sald, String fd, String fr, int lim) {
+        this.NumTarjeta = ntj;
+        this.idUsuario=iduses;
+        this.Nombre = nomb;
+        this.Apellido = apell;
+        this.Saldo = sald;
+        this.Fecha_Deposito = fd;
+        this.Fecha_Retiro = fr;
+        this.Limite = lim;
+        
+ 
+    }
 
-    private int NumTarjeta = 0;
-    private int idUsuario = 0;
-    private String Nombre = "Admin1";
-    private String Apellido = "Admin1";
-    private int Saldo=0;
-    private String Fecha_Deposito="0";
-    private String Fecha_Retiro ="0";
-    private int Limite=0;
-    
-    
-    
     /**
      * @return the NumTarjeta
      */
-    public int getNumTarjeta() {
+    public String getNumTarjeta() {
         return NumTarjeta;
     }
 
     /**
      * @param NumTarjeta the NumTarjeta to set
      */
-    public void setNumTarjeta(int NumTarjeta) {
+    public void setNumTarjeta(String NumTarjeta) {
         this.NumTarjeta = NumTarjeta;
     }
 
     /**
      * @return the idUsuario
      */
-    public int getIdUsuario() {
+    public String getIdUsuario() {
         return idUsuario;
     }
 
     /**
      * @param idUsuario the idUsuario to set
      */
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
     }
 
@@ -135,4 +149,5 @@ public class TarjetaUsuario {
     }
 
     
+
 }

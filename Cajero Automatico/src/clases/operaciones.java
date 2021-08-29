@@ -10,13 +10,26 @@ package clases;
  * @author ASUS
  */
 public class operaciones {
+    
     private int Deposito =0;
     private int Retiro =0;
     private int Saldo =0;
     private String CambPIN ="";
-    private int CambTarjeta =0;
+    private String CambTarjeta ="";
+    
+      public operaciones(int dp, int rt, int sld, String cpin, String ctj) {
+    
+        this.Deposito=dp;
+        this.Retiro = rt;
+        this.Saldo = sld;
+        this.CambPIN = cpin;
+        this.CambTarjeta = ctj;
+ 
+    }
     
     
+    
+
     /**
      * @return the Deposito
      */
@@ -76,15 +89,18 @@ public class operaciones {
     /**
      * @return the CambTarjeta
      */
-    public int getCambTarjeta() {
+    public String getCambTarjeta() {
         return CambTarjeta;
     }
 
     /**
      * @param CambTarjeta the CambTarjeta to set
      */
-    public void setCambTarjeta(int CambTarjeta) {
+    public void setCambTarjeta(String CambTarjeta) {
         this.CambTarjeta = CambTarjeta;
     }
     
+    
+    
+   
 }

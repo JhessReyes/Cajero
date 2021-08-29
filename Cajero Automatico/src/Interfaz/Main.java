@@ -20,7 +20,8 @@ import javax.swing.Timer;
  */
 public class Main extends javax.swing.JFrame {
     static InicioUsuario init = new InicioUsuario();
-     static gestionadmin gest = new gestionadmin();  
+    static gestionadmin gest = new gestionadmin();  
+    static newusuario nuses = new newusuario();
     /**
      * Creates new form Main
      */
@@ -36,6 +37,9 @@ public class Main extends javax.swing.JFrame {
         init.setVisible(false);
         Tiempo.add(gest);
         gest.setVisible(false);
+        Tiempo.add(nuses);
+        nuses.setVisible(false);
+        
        // Time ventana = new Time();
 //        Tiempo.add(ventana);
 //        ventana.show();
