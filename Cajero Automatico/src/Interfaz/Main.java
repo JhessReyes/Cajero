@@ -31,12 +31,14 @@ public class Main extends javax.swing.JFrame {
     static iniciarcajero incj = new iniciarcajero();
     static GestionesCliente gcli = new GestionesCliente();
     static TablaTransacciones tabtran = new TablaTransacciones();
-
+    static agregarlote lote = new agregarlote();
+    
     static Date fechayhora = new Date();
     static SimpleDateFormat fech = new SimpleDateFormat("dd/MM/yyyy");
     static SimpleDateFormat hor = new SimpleDateFormat("HH:mm:ss");
     static String fecha = fech.format(fechayhora);
     static String hora = hor.format(fechayhora);
+    
     /**
      * Creates new form Main
      */
@@ -106,6 +108,8 @@ public class Main extends javax.swing.JFrame {
         gcli.setVisible(false);
         Tiempo.add(tabtran);
         tabtran.setVisible(false);
+        Tiempo.add(lote);
+        lote.setVisible(false);
        // Time ventana = new Time();
 //        Tiempo.add(ventana);
 //        ventana.show();

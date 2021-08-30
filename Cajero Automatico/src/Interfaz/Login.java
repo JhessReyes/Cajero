@@ -152,7 +152,7 @@ public class Login extends javax.swing.JFrame {
              init.setVisible(false);
              gest.setVisible(true);
         }else if (Listausuarios.get(i).getTipoUsuario().equals("usuario")) {
-            JOptionPane.showMessageDialog(null, "BIENBENIDO USUARIOS");
+            //JOptionPane.showMessageDialog(null, "BIENBENIDO USUARIOS");
             this.idUser = Listausuarios.get(i).getIdUsuario();
             this.setVisible(false);
             init.setVisible(false);
