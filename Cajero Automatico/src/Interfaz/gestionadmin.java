@@ -5,6 +5,7 @@
  */
 package Interfaz;
 
+import static Interfaz.Main.incj;
 import static Interfaz.Main.nuses;
 
 
@@ -54,6 +55,11 @@ public class gestionadmin extends javax.swing.JInternalFrame {
         });
 
         btiniciarc.setText("Iniciarlizar Cajero");
+        btiniciarc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btiniciarcActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Agregar Efectivo");
 
@@ -116,6 +122,11 @@ public class gestionadmin extends javax.swing.JInternalFrame {
     this.setVisible(false);
     nuses.setVisible(true);
     }//GEN-LAST:event_btcusuariosActionPerformed
+
+    private void btiniciarcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btiniciarcActionPerformed
+        this.setVisible(false);
+        incj.setVisible(true);
+    }//GEN-LAST:event_btiniciarcActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
