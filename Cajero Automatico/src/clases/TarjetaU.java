@@ -10,15 +10,17 @@ package clases;
  * @author Reyes
  */
 public class TarjetaU {
-    private int IdTarjeta;
+
+    private String IdTarjeta;
     private String NumTarjeta;
     private String MInicial;
     private String LRetiro;
-    private Ingreso Ingresos;
-    private Retiro Egresos;
+    private String Ingresos;
+    private String Egresos;
     private String Saldo;
 
-    public TarjetaU(String NumTarjeta, String MInicial, String LRetiro, Ingreso Ingresos, Retiro Egresos, String Saldo) {
+    public TarjetaU(String idT,String NumTarjeta, String MInicial, String LRetiro, String Ingresos, String Egresos, String Saldo) {
+        this.IdTarjeta = idT;
         this.NumTarjeta = NumTarjeta;
         this.MInicial = MInicial;
         this.LRetiro = LRetiro;
@@ -26,53 +28,107 @@ public class TarjetaU {
         this.Egresos = Egresos;
         this.Saldo = Saldo;
     }
+    
+    
+    
+    /**
+     * @return the IdTarjeta
+     */
+    public String getIdTarjeta() {
+        return IdTarjeta;
+    }
 
+    /**
+     * @param IdTarjeta the IdTarjeta to set
+     */
+    public void setIdTarjeta(String IdTarjeta) {
+        this.IdTarjeta = IdTarjeta;
+    }
+
+    /**
+     * @return the NumTarjeta
+     */
     public String getNumTarjeta() {
         return NumTarjeta;
     }
 
+    /**
+     * @param NumTarjeta the NumTarjeta to set
+     */
     public void setNumTarjeta(String NumTarjeta) {
         this.NumTarjeta = NumTarjeta;
     }
 
+    /**
+     * @return the MInicial
+     */
     public String getMInicial() {
         return MInicial;
     }
 
+    /**
+     * @param MInicial the MInicial to set
+     */
     public void setMInicial(String MInicial) {
         this.MInicial = MInicial;
     }
 
+    /**
+     * @return the LRetiro
+     */
     public String getLRetiro() {
         return LRetiro;
     }
 
+    /**
+     * @param LRetiro the LRetiro to set
+     */
     public void setLRetiro(String LRetiro) {
         this.LRetiro = LRetiro;
     }
 
-    public Ingreso getIngresos() {
+    /**
+     * @return the Ingresos
+     */
+    public String getIngresos() {
         return Ingresos;
     }
 
-    public void setIngresos(Ingreso Ingresos) {
+    /**
+     * @param Ingresos the Ingresos to set
+     */
+    public void setIngresos(String Ingresos) {
         this.Ingresos = Ingresos;
     }
 
-    public Retiro getEgresos() {
+    /**
+     * @return the Egresos
+     */
+    public String getEgresos() {
         return Egresos;
     }
 
-    public void setEgresos(Retiro Egresos) {
+    /**
+     * @param Egresos the Egresos to set
+     */
+    public void setEgresos(String Egresos) {
         this.Egresos = Egresos;
     }
 
+    /**
+     * @return the Saldo
+     */
     public String getSaldo() {
         return Saldo;
     }
 
+    /**
+     * @param Saldo the Saldo to set
+     */
     public void setSaldo(String Saldo) {
         this.Saldo = Saldo;
     }
+
     
+
 }

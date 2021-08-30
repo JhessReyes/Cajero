@@ -140,14 +140,11 @@ public class Login extends javax.swing.JFrame {
         int cnt = 0;
         for (int i = 0; i < Listausuarios.size(); i++) {
             if (Listausuarios.get(i).getNumTarjeta().equals(tarjeta)) {
-
                 if (Listausuarios.get(cnt).getTipoUsuario().equals("admin")) {
                     //JOptionPane.showMessageDialog(null, "BIENBENIDO ADMIN");
                      this.setVisible(false);
                      init.setVisible(false);
                      gest.setVisible(true);
-                     
-                    
                 }
 
                 if (Listausuarios.get(cnt).getTipoUsuario().equals("usuario")) {

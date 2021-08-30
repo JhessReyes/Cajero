@@ -1,3 +1,4 @@
-00	admin1	ad	0000	admin	admin
-admin01	usuario	us	1111	usuario	usuario
-03	Sergio	Santos	1234	012012	admin
+0	admin1	ad	0000	admin	admin
+1	usuario	us	1111	usuario	usuario
+2	sergio	santos	1010	1414	admin
+3	jhonatan	reyes	1919	8888	admin
