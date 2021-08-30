@@ -86,6 +86,7 @@ public class newusuario extends javax.swing.JInternalFrame {
     public void AgregarDatosU(File f) {
         String a = "";
         String TipoUser = "";
+        ListaUser.clear();
         try {
             FileReader Fr = new FileReader(f);
             BufferedReader Br = new BufferedReader(Fr);
@@ -138,6 +139,7 @@ public class newusuario extends javax.swing.JInternalFrame {
         String a = "";
         String TipoUser = "";
         String token = "";
+        ListaUser.clear();
         try {
             FileReader Fr = new FileReader(f);
             BufferedReader Br = new BufferedReader(Fr);

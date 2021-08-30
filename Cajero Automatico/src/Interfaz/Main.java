@@ -5,12 +5,18 @@
  */
 package Interfaz;
 
+import clases.usuarios;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
@@ -24,11 +30,64 @@ public class Main extends javax.swing.JFrame {
     static newusuario nuses = new newusuario();
     static iniciarcajero incj = new iniciarcajero();
     static GestionesCliente gcli = new GestionesCliente();
+    static TablaTransacciones tabtran = new TablaTransacciones();
+
+    static Date fechayhora = new Date();
+    static SimpleDateFormat fech = new SimpleDateFormat("dd/MM/yyyy");
+    static SimpleDateFormat hor = new SimpleDateFormat("HH:mm:ss");
+    static String fecha = fech.format(fechayhora);
+    static String hora = hor.format(fechayhora);
     /**
      * Creates new form Main
      */
     
-    
+    static public void GuardarUs(ArrayList<usuarios> t, File f){
+        String a = "";
+        String TipoUser = "";
+        t.clear();
+        try {
+            FileReader Fr = new FileReader(f);
+            BufferedReader Br = new BufferedReader(Fr);
+            while ((a = Br.readLine()) != null) {
+                int cnt = 0;
+                String[] Usuarios = new String[6];
+                for (int x = 0; x < a.length(); x++) {
+                    char c = a.charAt(x);
+                    var regex = "\t";
+                    if (!Pattern.matches(regex, String.valueOf(c))) {
+                        TipoUser += String.valueOf(c);
+                    } else {
+                        if (cnt == 0) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        if (cnt == 1) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        if (cnt == 2) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        if (cnt == 3) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        if (cnt == 4) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+
+                        cnt++;
+                        TipoUser = "";
+
+                    }
+                    if (cnt == 5) {
+                        Usuarios[cnt] = TipoUser;
+                    }
+                }
+                t.add(new usuarios(Usuarios[0], Usuarios[1], Usuarios[2], Usuarios[3], Usuarios[4], Usuarios[5]));
+                TipoUser = "";
+            }
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "No se Encontro el Archivo", "ERROR", 2);
+        }
+    }
     
     public Main() {
        
@@ -45,6 +104,8 @@ public class Main extends javax.swing.JFrame {
         nuses.setVisible(false);
         Tiempo.add(gcli);
         gcli.setVisible(false);
+        Tiempo.add(tabtran);
+        tabtran.setVisible(false);
        // Time ventana = new Time();
 //        Tiempo.add(ventana);
 //        ventana.show();

@@ -1,4 +1,6 @@
 0	admin1	ad	0000	admin	admin
-1	usuario	us	1111	1234	usuario
+1	usuario	us	5555	1234	usuario
 2	sergio	santos	1010	1414	admin
 3	jhonatan	reyes	1919	8888	admin
+4	Jhonatan	Riv	1234	5555	usuario
+5	Pedro	Sanchez	pSanchez	255	admin
