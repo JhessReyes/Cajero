@@ -7,6 +7,7 @@ package Interfaz;
 
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TablaTransacciones extends javax.swing.JInternalFrame {
     static DefaultTableModel model;
+
     
     /**
      * Creates new form TablaTransacciones
@@ -88,6 +90,6 @@ public class TablaTransacciones extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable;
+    public static javax.swing.JTable jTable;
     // End of variables declaration//GEN-END:variables
 }

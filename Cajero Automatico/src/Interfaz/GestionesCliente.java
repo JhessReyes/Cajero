@@ -12,6 +12,7 @@ import static Interfaz.Main.fechayhora;
 import static Interfaz.Main.hora;
 import static Interfaz.Main.init;
 import static Interfaz.Main.tabtran;
+import static Interfaz.TablaTransacciones.jTable;
 import static Interfaz.TablaTransacciones.model;
 import clases.TarjetaU;
 import clases.Transacciones;
@@ -27,6 +28,7 @@ import java.util.regex.Pattern;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -51,6 +53,7 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
      */
     public GestionesCliente() {
         initComponents();
+        ListaUser= new ArrayList<>();
         northPane = ((BasicInternalFrameUI) getUI()).getNorthPane();
         border = getBorder();
         this.setUndecorated(true);
@@ -147,7 +150,8 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
     
         //metodo para mostrar ultimos 5 registros
     public void  tabla(){
-      //  RemoveDatos(TableSim,model2);
+       
+       RemoveDatos(jTable,model);
         for(Transacciones tb: ListaTransacciones){
             if(tb.getIdUser().contentEquals(idUser)){
             String []info = new String[6];
@@ -160,7 +164,14 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
             }
         }
     }
-     
+    public void RemoveDatos(JTable tb, DefaultTableModel db){
+     int fil = tb.getRowCount();
+        if(fil>=0){
+            for(int x =fil-1; x>=0;x--){
+                db.removeRow(x);
+            }
+        }
+    }
         //metodo para guardar datos de todas las tarjetas
     public void AgregarDatosTJ(File f) {
         String a = "";
