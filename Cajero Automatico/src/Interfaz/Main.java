@@ -23,6 +23,7 @@ public class Main extends javax.swing.JFrame {
     static gestionadmin gest = new gestionadmin();  
     static newusuario nuses = new newusuario();
     static iniciarcajero incj = new iniciarcajero();
+    static GestionesCliente gcli = new GestionesCliente();
     /**
      * Creates new form Main
      */
@@ -42,7 +43,8 @@ public class Main extends javax.swing.JFrame {
         nuses.setVisible(false);
         Tiempo.add(incj);
         nuses.setVisible(false);
-        
+        Tiempo.add(gcli);
+        gcli.setVisible(false);
        // Time ventana = new Time();
 //        Tiempo.add(ventana);
 //        ventana.show();

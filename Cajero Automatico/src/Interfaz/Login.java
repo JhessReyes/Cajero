@@ -6,6 +6,7 @@
 package Interfaz;
 
 import AssetsLogin.TextPrompt;
+import static Interfaz.Main.gcli;
 import static Interfaz.Main.gest;
 import static Interfaz.Main.init;
 import clases.usuarios;
@@ -27,6 +28,15 @@ public class Login extends javax.swing.JFrame {
 
     File uses = new File("usuarios.txt");
     ArrayList<usuarios> Listausuarios = new ArrayList<>();
+    static String idUser;
+
+    public String getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
+    }
 
     public ArrayList<usuarios> getListausuarios() {
         return Listausuarios;
@@ -42,7 +52,6 @@ public class Login extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         TextPrompt User = new TextPrompt("Numero de Tarjeta", txtarjeta);
         TextPrompt Pass = new TextPrompt("Contraseña", jpassword);
-
     }
 
     public void AgregarDatos(File f) {
@@ -93,6 +102,7 @@ public class Login extends javax.swing.JFrame {
                 }
                 Listausuarios.add(new usuarios(Usuarios[0], Usuarios[1], Usuarios[2], Usuarios[3], Usuarios[4], Usuarios[5]));
                 //JOptionPane.showMessageDialog(null,Listausuarios.get(0).getNombre());
+                TipoUser="";
             }
 
         } catch (IOException ex) {
@@ -128,34 +138,27 @@ public class Login extends javax.swing.JFrame {
             if (Listausuarios.get(i).getNumTarjeta().equals(tarjeta)) {
                 if (Listausuarios.get(i).getPassword().equals(contraseña)) {
                     //JOptionPane.showMessageDialog(null, "BIENVENIDO");
-                    tiposusuarios();
+                    tiposusuarios(i);
                 }
             }
         }
 
     }
 
-    public void tiposusuarios() {
-        String tarjeta = txtarjeta.getText();
-        int cnt = 0;
-        for (int i = 0; i < Listausuarios.size(); i++) {
-            if (Listausuarios.get(i).getNumTarjeta().equals(tarjeta)) {
-                if (Listausuarios.get(cnt).getTipoUsuario().equals("admin")) {
-                    //JOptionPane.showMessageDialog(null, "BIENBENIDO ADMIN");
-                     this.setVisible(false);
-                     init.setVisible(false);
-                     gest.setVisible(true);
-                }
-
-                if (Listausuarios.get(cnt).getTipoUsuario().equals("usuario")) {
-                    JOptionPane.showMessageDialog(null, "BIENBENIDO USUARIOS");
-                }
-
-            }
-            cnt++;
+    public void tiposusuarios(int i) {
+        if (Listausuarios.get(i).getTipoUsuario().equals("admin")) {
+            //JOptionPane.showMessageDialog(null, "BIENBENIDO ADMIN");
+             this.setVisible(false);
+             init.setVisible(false);
+             gest.setVisible(true);
+        }else if (Listausuarios.get(i).getTipoUsuario().equals("usuario")) {
+            JOptionPane.showMessageDialog(null, "BIENBENIDO USUARIOS");
+            this.idUser = Listausuarios.get(i).getIdUsuario();
+            this.setVisible(false);
+            init.setVisible(false);
+            gcli.setVisible(true);
         }
-
-    }
+}
     
     
     
