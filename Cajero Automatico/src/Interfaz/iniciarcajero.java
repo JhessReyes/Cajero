@@ -164,15 +164,13 @@ public class iniciarcajero extends javax.swing.JInternalFrame {
         var2=10000;
         sum=(b1*1)+(b2*5)+(b3*10)+(b4*20)+(b5*50)+(b6*100)+(b7*200);
         dif=var2-sum;
-        
         this.jtsuma.setText(String.valueOf(sum));
         this.jtdif.setText(String.valueOf(dif));
         
-        if(dif > 0){
+        if(dif >0 ){
             JOptionPane.showMessageDialog(null, "CONFIGURACION ACEPTADA, PUEDE GUARDAR");
             this.jbguardar.setVisible(true);
         }
-        
         if(dif<0){
             JOptionPane.showMessageDialog(null, "NO SE PUEDE GUARDAR ESTA CONFIGURACION");
         }

@@ -6,11 +6,11 @@
 package Interfaz;
 
 import static Interfaz.Login.idUser;
-import static Interfaz.Main.fech;
-import static Interfaz.Main.fecha;
-import static Interfaz.Main.fechayhora;
-import static Interfaz.Main.hora;
+import static Interfaz.Main.ModificarDatosTrans;
+import static Interfaz.Main.AgregarDatosTrans;
+import static Interfaz.Main.autoId;
 import static Interfaz.Main.init;
+import static Interfaz.Time.*;
 import static Interfaz.Main.tabtran;
 import static Interfaz.TablaTransacciones.jTable;
 import static Interfaz.TablaTransacciones.model;
@@ -23,7 +23,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Pattern;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -40,7 +42,7 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
    File Transacciones = new File("transacciones.txt");
    File tarjetas = new File("tarjetas.txt");
    File usuario = new File("usuarios.txt");
-
+ 
    ArrayList<TarjetaU> ListaTarjetas = new ArrayList<>();   
    ArrayList<usuarios> ListaUser;   
    ArrayList<Transacciones> ListaTransacciones;
@@ -48,6 +50,7 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
    private String IdCliente;
    String saldoU;
    int idTransaccion;
+   String RetiroDisp;
     /**
      * Creates new form GestionesCliente
      */
@@ -95,19 +98,24 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
     
         //metodo para realizar retiros de la tarjeta
     public void retiro(){
+        limiteDiario();
         AgregarDatosTran(Transacciones);
         String retiro;
-        saldoU = ListaTarjetas.get(Integer.valueOf(idUser)).getSaldo();    
+        saldoU = ListaTarjetas.get(Integer.valueOf(idUser)).getSaldo();
         retiro=JOptionPane.showInputDialog(null,"¿Cuanto dinero desea retirar?","RETIRO",0).trim();
+
+        if(Integer.valueOf(retiro)<=Integer.valueOf(RetiroDisp)){
         int sal = Integer.valueOf(saldoU)-Integer.valueOf(retiro);
         if(Integer.valueOf(retiro)>Integer.valueOf(saldoU)){
             JOptionPane.showMessageDialog(null,"El saldo no es viable para completar esta transaccion","ERROR",0);
         }else{
             ModificarDatosTJ(ListaTarjetas,tarjetas,Integer.toString(sal));
-            ListaTransacciones.add(new Transacciones(Integer.toString(idTransaccion),idUser,"Retiro",retiro,fecha,hora));
+            ListaTransacciones.add(new Transacciones(Integer.toString(idTransaccion),idUser,"Retiro",retiro,FeYHo.getText()));
             idTransaccion++;
             ModificarDatosTran(ListaTransacciones,Transacciones);
-        }
+        }            
+        }else JOptionPane.showMessageDialog(null,"No se le permiten más retiros por hoy","ERROR",0);
+
     }
     
         //metodo para realizar depositos en la tarjeta
@@ -119,7 +127,7 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
         deposito=JOptionPane.showInputDialog(null,"¿Cuanto dinero desea ingresar?","DEPOSITO",0).trim();
         int sal = Integer.valueOf(saldoU)+Integer.valueOf(deposito);
         ModificarDatosTJ(ListaTarjetas,tarjetas, Integer.toString(sal));        
-        ListaTransacciones.add(new Transacciones(Integer.toString(idTransaccion),idUser,"Deposito",deposito,fecha,hora));
+        ListaTransacciones.add(new Transacciones(Integer.toString(idTransaccion),idUser,"Deposito",deposito,FeYHo.getText()));
         idTransaccion++;
         ModificarDatosTran(ListaTransacciones,Transacciones);
     }
@@ -135,34 +143,71 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
         //System.out.println(pinant);
 //        if(pinant!=null&&nuevopin!=null){
 //                if(pinant.contentEquals(ListaUser.get(Integer.valueOf(idUser)).getPassword())){
-                    ModificarDatosU(ListaUser,usuario,nuevopin);            
+                    ModificarDatosU(ListaUser,usuario,nuevopin);
+                    ListaTransacciones.add(new Transacciones(Integer.toString(idTransaccion),idUser,"CambioPin",ListaUser.get(Integer.valueOf(idUser)).getNumTarjeta(),FeYHo.getText()));
+                    idTransaccion++;
+                    ModificarDatosTran(ListaTransacciones,Transacciones);
+// 
 //                }else JOptionPane.showMessageDialog(null,"Sus datos no coinciden", "ERROR", 0);
 //            }
     }
     //metodo para mostrar saldos disponibles
     public void saldos(){
+        limiteDiario();
         String Sal = ListaTarjetas.get(Integer.valueOf(idUser)).getSaldo();
         String retiro = ListaTarjetas.get(Integer.valueOf(idUser)).getLRetiro();
         JOptionPane.showMessageDialog(null, "• Monto máximo de retiro     Q. " + retiro +"\n"+
-                                            "• Monto máximo de retiro diario disponible  Q. \n" +
-                                            "• Saldo Actual -> Q. "+Sal);
+                                            "• Monto máximo de retiro diario disponible  Q. "+RetiroDisp +"\n" +
+                                            "• Saldo Actual   Q. "+Sal+"\n" +
+                                            "• Total Retirado hoy  Q. "+limiteDiario());
+    }
+    public String limiteDiario(){
+        int result = 0;
+        for (int i = 0; i < ListaTransacciones.size(); i++) {
+            if(ListaTransacciones.get(i).getTipo().contentEquals("Retiro")){
+                result += Integer.valueOf(ListaTransacciones.get(i).getMonto());
+            }
+        }
+        
+        int RetiroDispo = Integer.valueOf(ListaTarjetas.get(Integer.valueOf(idUser)).getLRetiro())-result;
+        RetiroDisp = Integer.toString(RetiroDispo);
+        String tot=Integer.toString(result);
+        return tot;
     }
     
         //metodo para mostrar ultimos 5 registros
     public void  tabla(){
-       
        RemoveDatos(jTable,model);
-        for(Transacciones tb: ListaTransacciones){
-            if(tb.getIdUser().contentEquals(idUser)){
-            String []info = new String[6];
-            info[0] = tb.getIdRegistro();
-            info[1] = tb.getTipo();
-            info[2] = tb.getMonto();
-            info[3] = tb.getFecha();
-            info[4] = tb.getHora();
-            model.addRow(info);
+       int cnt=0;
+        for (int i = ListaTransacciones.size()-1; i > -1; i--) {
+            if(cnt<5){
+                if(ListaTransacciones.get(i).getIdUser().contentEquals(idUser)){
+                    if(ListaTransacciones.get(i).getTipo().contentEquals("Retiro")||
+                        ListaTransacciones.get(i).getTipo().contentEquals("Deposito")){
+                        String []info = new String[5];
+                        info[0] = ListaTransacciones.get(i).getIdRegistro();
+                        info[1] = ListaTransacciones.get(i).getTipo();
+                        info[2] = ListaTransacciones.get(i).getMonto();
+                        info[3] = ListaTransacciones.get(i).getFecha();
+                        model.addRow(info);
+                        cnt++;
+                    }
+                }
             }
+            
         }
+//        for(Transacciones tb: ListaTransacciones){
+//            if(tb.getIdUser().contentEquals(idUser)){
+//                if(tb.getTipo().contentEquals("Retiro")||tb.getTipo().contentEquals("Deposito")){
+//                    String []info = new String[5];
+//                    info[0] = tb.getIdRegistro();
+//                    info[1] = tb.getTipo();
+//                    info[2] = tb.getMonto();
+//                    info[3] = tb.getFecha();
+//                    model.addRow(info);                    
+//                }
+//            }
+//        }
     }
     public void RemoveDatos(JTable tb, DefaultTableModel db){
      int fil = tb.getRowCount();
@@ -251,17 +296,14 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
                         if (cnt == 3) {
                             Usuarios[cnt] = text;
                         }
-                        if (cnt == 4) {
-                            Usuarios[cnt] = text;
-                        }
                         cnt++;
                         text = "";
                     }
-                    if (cnt == 5) {
+                    if (cnt == 4) {
                         Usuarios[cnt] = text;
                     }
                 }
-                ListaTransacciones.add(new Transacciones(Usuarios[0], Usuarios[1], Usuarios[2], Usuarios[3], Usuarios[4], Usuarios[5]));
+                ListaTransacciones.add(new Transacciones(Usuarios[0], Usuarios[1], Usuarios[2], Usuarios[3], Usuarios[4]));
                 text = "";
             }
         } catch (IOException ex) {
@@ -304,8 +346,7 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
                     t.get(i).getIdUser()+"\t"+
                     t.get(i).getTipo()+"\t"+
                     t.get(i).getMonto()+"\t"+
-                    t.get(i).getFecha()+"\t"+
-                    t.get(i).getHora()+"\n";
+                    t.get(i).getFecha()+"\n";
         }
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(f));
@@ -408,97 +449,72 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
 
         setVisible(true);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jbCambPin.setFont(new java.awt.Font("Castellar", 0, 14)); // NOI18N
+        jbCambPin.setBackground(new java.awt.Color(0, 153, 153));
+        jbCambPin.setFont(new java.awt.Font("Castellar", 1, 14)); // NOI18N
+        jbCambPin.setForeground(new java.awt.Color(255, 255, 255));
         jbCambPin.setText("Cambiar Pin");
         jbCambPin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbCambPinActionPerformed(evt);
             }
         });
+        getContentPane().add(jbCambPin, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 150, 86));
 
-        jbRetiro.setFont(new java.awt.Font("Castellar", 0, 14)); // NOI18N
+        jbRetiro.setBackground(new java.awt.Color(0, 153, 153));
+        jbRetiro.setFont(new java.awt.Font("Castellar", 1, 14)); // NOI18N
+        jbRetiro.setForeground(new java.awt.Color(255, 255, 255));
         jbRetiro.setText("Retiro");
         jbRetiro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbRetiroActionPerformed(evt);
             }
         });
+        getContentPane().add(jbRetiro, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 150, 86));
 
-        jbSaldo.setFont(new java.awt.Font("Castellar", 0, 14)); // NOI18N
+        jbSaldo.setBackground(new java.awt.Color(0, 153, 153));
+        jbSaldo.setFont(new java.awt.Font("Castellar", 1, 14)); // NOI18N
+        jbSaldo.setForeground(new java.awt.Color(255, 255, 255));
         jbSaldo.setText("SALDO");
         jbSaldo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbSaldoActionPerformed(evt);
             }
         });
+        getContentPane().add(jbSaldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 160, 150, 86));
 
-        jbUltTrans.setFont(new java.awt.Font("Castellar", 0, 14)); // NOI18N
-        jbUltTrans.setText("ultimas tranSACCIONES");
+        jbUltTrans.setBackground(new java.awt.Color(0, 153, 153));
+        jbUltTrans.setFont(new java.awt.Font("Castellar", 1, 14)); // NOI18N
+        jbUltTrans.setForeground(new java.awt.Color(255, 255, 255));
+        jbUltTrans.setText("ultimas 5 tranSACCIONES");
         jbUltTrans.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbUltTransActionPerformed(evt);
             }
         });
+        getContentPane().add(jbUltTrans, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 280, 283, 86));
 
-        jbDeposito.setFont(new java.awt.Font("Castellar", 0, 14)); // NOI18N
+        jbDeposito.setBackground(new java.awt.Color(0, 153, 153));
+        jbDeposito.setFont(new java.awt.Font("Castellar", 1, 14)); // NOI18N
+        jbDeposito.setForeground(new java.awt.Color(255, 255, 255));
         jbDeposito.setText("Depósito");
         jbDeposito.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbDepositoActionPerformed(evt);
             }
         });
+        getContentPane().add(jbDeposito, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, 150, 86));
 
         jButton1.setBackground(new java.awt.Color(204, 0, 0));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Cerrar Sesión");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jbRetiro, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(150, 150, 150)
-                                    .addComponent(jbDeposito, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jbCambPin, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(150, 150, 150)
-                                    .addComponent(jbSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addContainerGap())
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addGap(110, 110, 110)
-                            .addComponent(jButton1)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jbUltTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(111, 111, 111))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jbRetiro, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbDeposito, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(64, 64, 64)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jbCambPin, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
-                .addComponent(jbUltTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addContainerGap())
-        );
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 380, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -523,8 +539,12 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
         saldos();
     }//GEN-LAST:event_jbSaldoActionPerformed
 
+    ArrayList<Transacciones> ListaTran;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        this.ListaTran = AgregarDatosTrans(ListaTran,Transacciones);
+        ListaTran.add(new Transacciones(autoId(Transacciones),idUser,"Login","0",FeYHo.getText()));
+        ModificarDatosTrans(ListaTran,Transacciones);
         this.setVisible(false);
         init.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed

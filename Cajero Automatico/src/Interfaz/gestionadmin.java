@@ -5,6 +5,8 @@
  */
 package Interfaz;
 
+import static Interfaz.Main.conus;
+import static Interfaz.Main.ctrlu;
 import static Interfaz.Main.incj;
 import static Interfaz.Main.init;
 import static Interfaz.Main.lote;
@@ -83,8 +85,18 @@ public class gestionadmin extends javax.swing.JInternalFrame {
         });
 
         jButton4.setText("Consulta de Usuario");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Control de Usuario");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Salir");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -148,7 +160,7 @@ public class gestionadmin extends javax.swing.JInternalFrame {
             this.setVisible(false);
             incj.setVisible(true);
             cnt++;
-        } 
+        }
 
     }//GEN-LAST:event_btiniciarcActionPerformed
 
@@ -156,7 +168,6 @@ public class gestionadmin extends javax.swing.JInternalFrame {
         if (cnt != 0) {
             lote.setVisible(true);
             this.setVisible(false);
-            cnt=cnt-1;
         } else {
             JOptionPane.showMessageDialog(null, "NO A INICIADO CAJA");
         }
@@ -177,6 +188,16 @@ public class gestionadmin extends javax.swing.JInternalFrame {
         this.setVisible(false);
         mt.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        ctrlu.setVisible(true);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        conus.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

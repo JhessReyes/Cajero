@@ -5,12 +5,16 @@
  */
 package Interfaz;
 
+import clases.TarjetaU;
+import clases.Transacciones;
 import clases.usuarios;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,7 +22,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -34,21 +40,132 @@ public class Main extends javax.swing.JFrame {
     static agregarlote lote = new agregarlote();
     static modificarTarjeta mt = new modificarTarjeta();
     static modificarLimite ml = new modificarLimite();
-    
-    static Date fechayhora = new Date();
-    static SimpleDateFormat fech = new SimpleDateFormat("dd/MM/yyyy");
-    static SimpleDateFormat hor = new SimpleDateFormat("HH:mm:ss");
-    static String fecha = fech.format(fechayhora);
-    static String hora = hor.format(fechayhora);
+    static ControlUsuarios ctrlu = new ControlUsuarios();
+    static ConsultaUsuario conus = new ConsultaUsuario();
     
     /**
      * Creates new form Main
      */
-    
-    static public void GuardarUs(ArrayList<usuarios> t, File f){
+        
+    public Main() {
+       
+        initComponents();
+        BarraAdmin();
+        this.setLocationRelativeTo(this);
+        Tiempo.add(init);
+        init.setVisible(false);
+        Tiempo.add(gest);
+        gest.setVisible(false);
+        Tiempo.add(nuses);
+        nuses.setVisible(false);
+        Tiempo.add(incj);
+        incj.setVisible(false);
+        Tiempo.add(gcli);
+        gcli.setVisible(false);
+        Tiempo.add(tabtran);
+        tabtran.setVisible(false);
+        Tiempo.add(lote);
+        lote.setVisible(false);
+        Tiempo.add(mt);
+        mt.setVisible(false);
+        Tiempo.add(ml);
+        ml.setVisible(false);
+        Tiempo.add(ctrlu);
+        ctrlu.setVisible(false);
+        Tiempo.add(conus);
+        conus.setVisible(false);
+       // Time ventana = new Time();
+//        Tiempo.add(ventana);
+//        ventana.show();
+       
+        //Tiempo.add(ventana);
+//        InicioUsuario init = new InicioUsuario();
+//        Tiempo.add(init);
+//        init.show();
+        //ventana.setVisible(true);
+//        btnAd.setOpaque(false);
+//        btnAd.setBorderPainted(false);
+//        btnAd.setContentAreaFilled(false);
+//        btnIng.setOpaque(false);
+//        btnIng.setBorderPainted(false);
+//        btnIng.setContentAreaFilled(false);
+
+    }
+        public static void RemoveDatos(JTable tb, DefaultTableModel db){
+     int fil = tb.getRowCount();
+        if(fil>=0){
+            for(int x =fil-1; x>=0;x--){
+                db.removeRow(x);
+            }
+        }
+    }
+    //metodo agregar ListadeTransacciones
+    public static ArrayList<Transacciones> AgregarDatosTrans(ArrayList<Transacciones> ListaTransacciones,File f) {
+        String a = "";
+        String text = "";
+        ListaTransacciones=new ArrayList<>();
+        try {
+            FileReader Fr = new FileReader(f);
+            BufferedReader Br = new BufferedReader(Fr);
+            while ((a = Br.readLine()) != null) {
+                int cnt = 0;
+                String[] Usuarios = new String[6];
+                for (int x = 0; x < a.length(); x++) {
+                    char c = a.charAt(x);
+                    var regex = "\t";
+                    if (!Pattern.matches(regex, String.valueOf(c))) {
+                        text += String.valueOf(c);
+                    } else {
+                        if (cnt == 0) {
+                            Usuarios[cnt] = text;
+                        }
+                        if (cnt == 1) {
+                            Usuarios[cnt] = text;
+                        }
+                        if (cnt == 2) {
+                            Usuarios[cnt] = text;
+                        }
+                        if (cnt == 3) {
+                            Usuarios[cnt] = text;
+                        }
+                        cnt++;
+                        text = "";
+                    }
+                    if (cnt == 4) {
+                        Usuarios[cnt] = text;
+                    }
+                }
+                ListaTransacciones.add(new Transacciones(Usuarios[0], Usuarios[1], Usuarios[2], Usuarios[3], Usuarios[4]));
+                text = "";
+            }
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "No se Encontro el Archivo", "ERROR", 2);
+        }
+        return ListaTransacciones;
+    }
+    public static void ModificarDatosTrans(ArrayList<Transacciones> t, File f) {
+        String dato = "";
+        for (int i = 0; i < t.size(); i++) {
+            dato += t.get(i).getIdRegistro()+"\t"+
+                    t.get(i).getIdUser()+"\t"+
+                    t.get(i).getTipo()+"\t"+
+                    t.get(i).getMonto()+"\t"+
+                    t.get(i).getFecha()+"\n";
+        }
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+            bw.write("");
+            try ( FileWriter FlWr = new FileWriter(f, true)) {
+                FlWr.write(dato);
+            }
+        } catch (IOException e) {
+            System.out.println("Error");
+        }
+    }
+    public static ArrayList<usuarios> AgregarDatosU(ArrayList<usuarios> ListaUser,File f) {
         String a = "";
         String TipoUser = "";
-        t.clear();
+        ListaUser = new ArrayList<>();
         try {
             FileReader Fr = new FileReader(f);
             BufferedReader Br = new BufferedReader(Fr);
@@ -85,55 +202,80 @@ public class Main extends javax.swing.JFrame {
                         Usuarios[cnt] = TipoUser;
                     }
                 }
-                t.add(new usuarios(Usuarios[0], Usuarios[1], Usuarios[2], Usuarios[3], Usuarios[4], Usuarios[5]));
+                ListaUser.add(new usuarios(Usuarios[0], Usuarios[1], Usuarios[2], Usuarios[3], Usuarios[4], Usuarios[5]));
                 TipoUser = "";
             }
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "No se Encontro el Archivo", "ERROR", 2);
         }
+        return ListaUser;
     }
-    
-    public Main() {
-       
-        initComponents();
-        BarraAdmin();
-        this.setLocationRelativeTo(this);
-        Tiempo.add(init);
-        init.setVisible(false);
-        Tiempo.add(gest);
-        gest.setVisible(false);
-        Tiempo.add(nuses);
-        nuses.setVisible(false);
-        Tiempo.add(incj);
-        nuses.setVisible(false);
-        Tiempo.add(gcli);
-        gcli.setVisible(false);
-        Tiempo.add(tabtran);
-        tabtran.setVisible(false);
-        Tiempo.add(lote);
-        lote.setVisible(false);
-        Tiempo.add(mt);
-        mt.setVisible(false);
-        Tiempo.add(ml);
-        ml.setVisible(false);
-       // Time ventana = new Time();
-//        Tiempo.add(ventana);
-//        ventana.show();
-       
-        //Tiempo.add(ventana);
-//        InicioUsuario init = new InicioUsuario();
-//        Tiempo.add(init);
-//        init.show();
-        //ventana.setVisible(true);
-//        btnAd.setOpaque(false);
-//        btnAd.setBorderPainted(false);
-//        btnAd.setContentAreaFilled(false);
-//        btnIng.setOpaque(false);
-//        btnIng.setBorderPainted(false);
-//        btnIng.setContentAreaFilled(false);
-
+    public static ArrayList<TarjetaU> AgregarDatosTJs(ArrayList<TarjetaU> ListaTarjetas, File f) {
+        String a = "";
+        String TipoUser = "";
+        ListaTarjetas = new ArrayList<>();
+        try {
+            FileReader Fr = new FileReader(f);
+            BufferedReader Br = new BufferedReader(Fr);
+            while ((a = Br.readLine()) != null) {
+                int cnt = 0;
+                String[] Usuarios = new String[7];
+                for (int x = 0; x < a.length(); x++) {
+                    char c = a.charAt(x);
+                    var regex = "\t";
+                    if (!Pattern.matches(regex, String.valueOf(c))) {
+                        TipoUser += String.valueOf(c);
+                    } else {
+                        if (cnt == 0) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        if (cnt == 1) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        if (cnt == 2) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        if (cnt == 3) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        if (cnt == 4) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        if (cnt == 5) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        cnt++;
+                        TipoUser = "";
+                    }
+                    if (cnt == 6) {
+                        Usuarios[cnt] = TipoUser;
+                    }
+                }
+                ListaTarjetas.add(new TarjetaU(Usuarios[0], Usuarios[1], Usuarios[2], Usuarios[3], Usuarios[4], Usuarios[5], Usuarios[6]));
+                TipoUser = "";
+            }
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "No se Encontro el Archivo", "ERROR", 2);
+        }
+        return ListaTarjetas;
     }
-    
+    public static String autoId(File f){
+        String a = "";
+        String contenido = "";
+        int linea = 0;
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            while ((a = br.readLine()) != null) {
+                contenido = contenido + "" + a + "/n";
+                if (contenido.contains("")) {
+                    linea++;
+                }
+            }
+        } catch (Exception ex) {}
+        
+        return Integer.toString(linea);
+    }
     
     
     

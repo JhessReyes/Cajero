@@ -192,7 +192,6 @@ public class agregarlote extends javax.swing.JInternalFrame {
         if(dif <0){
             JOptionPane.showMessageDialog(null, "NO SE PUEDE GUARDAR ESTA CONFIGURACION");
         }
-
     }
 
     public void limpiar() {
