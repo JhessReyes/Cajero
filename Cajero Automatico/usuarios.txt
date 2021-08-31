@@ -2,5 +2,5 @@
 1	usuario	us	1111	1234	usuario
 2	sergio	santos	1010	1414	admin
 3	jhonatan	reyes	1919	8888	admin
-4	Jhonatan	Riv	1234	4444	usuario
+4	Jhonatan	Riv	1616	4444	usuario
 5	Pedro	Sanchez	pSanchez	2323	admin

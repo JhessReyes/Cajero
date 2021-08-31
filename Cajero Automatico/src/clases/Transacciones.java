@@ -15,16 +15,15 @@ public class Transacciones {
     private String Tipo;
     private String Monto;
     private String fecha;
-    private String hora;
 
-    public Transacciones(String IdRegistro, String IdUser, String Tipo, String Monto, String fecha, String hora) {
+    public Transacciones(String IdRegistro, String IdUser, String Tipo, String Monto, String fecha) {
         this.IdRegistro = IdRegistro;
         this.IdUser = IdUser;
         this.Tipo = Tipo;
         this.Monto = Monto;
         this.fecha = fecha;
-        this.hora = hora;
     }
+
 
     public String getIdRegistro() {
         return IdRegistro;
@@ -64,16 +63,6 @@ public class Transacciones {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
-    }
-
-    public String getHora() {
-        return hora;
-    }
-
-    public void setHora(String hora) {
-        this.hora = hora;
-    }
-    
-    
+    }   
     
 }

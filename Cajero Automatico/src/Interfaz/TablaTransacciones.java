@@ -29,7 +29,6 @@ public class TablaTransacciones extends javax.swing.JInternalFrame {
         model.addColumn("Tipo");
         model.addColumn("Monto Q.");
         model.addColumn("Fecha");
-        model.addColumn("Hora");
         jTable.setDragEnabled(false);
         jTable.setFont(new Font("Nirmala UI",3,14));
         jTable.setForeground(Color.black);
@@ -73,7 +72,7 @@ public class TablaTransacciones extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(

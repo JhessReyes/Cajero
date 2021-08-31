@@ -46,7 +46,7 @@ public class Time extends javax.swing.JInternalFrame {
         Date d = new Date();
         SimpleDateFormat fechf = new SimpleDateFormat("dd/MM/yyyy - ");
 
-        jLabel5.setText(fechf.format(d)+(hrs<=9?"0":"")+hrs+":"+(min<=9?"0":"")+min+":"+(sec<=9?"0":"")+sec);
+        FeYHo.setText(fechf.format(d)+(hrs<=9?"0":"")+hrs+":"+(min<=9?"0":"")+min+":"+(sec<=9?"0":"")+sec);
     }
    
     /**
@@ -80,7 +80,7 @@ public class Time extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel5 = new javax.swing.JLabel();
+        FeYHo = new javax.swing.JLabel();
 
         setBorder(null);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -98,11 +98,11 @@ public class Time extends javax.swing.JInternalFrame {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel5.setFont(new java.awt.Font("Calisto MT", 3, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setOpaque(true);
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 50));
+        FeYHo.setFont(new java.awt.Font("Calisto MT", 3, 24)); // NOI18N
+        FeYHo.setForeground(new java.awt.Color(0, 102, 0));
+        FeYHo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        FeYHo.setOpaque(true);
+        getContentPane().add(FeYHo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 50));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -125,6 +125,6 @@ public class Time extends javax.swing.JInternalFrame {
     setRootPaneCheckingEnabled(true);
 }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel5;
+    public static javax.swing.JLabel FeYHo;
     // End of variables declaration//GEN-END:variables
 }

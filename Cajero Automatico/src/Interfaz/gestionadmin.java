@@ -5,6 +5,7 @@
  */
 package Interfaz;
 
+import static Interfaz.Main.ctrlu;
 import static Interfaz.Main.incj;
 import static Interfaz.Main.init;
 import static Interfaz.Main.lote;
@@ -85,6 +86,11 @@ public class gestionadmin extends javax.swing.JInternalFrame {
         jButton4.setText("Consulta de Usuario");
 
         jButton5.setText("Control de Usuario");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Salir");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -144,12 +150,10 @@ public class gestionadmin extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btcusuariosActionPerformed
 
     private void btiniciarcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btiniciarcActionPerformed
-        if (cnt != 0) {
+        if (cnt == 0) {
             this.setVisible(false);
             incj.setVisible(true);
             cnt++;
-        } else {
-            JOptionPane.showMessageDialog(null, "YA SE INICIO CAJA ESTE DÍA");
         }
 
     }//GEN-LAST:event_btiniciarcActionPerformed
@@ -178,6 +182,11 @@ public class gestionadmin extends javax.swing.JInternalFrame {
         this.setVisible(false);
         mt.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        ctrlu.setVisible(true);
+    }//GEN-LAST:event_jButton5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

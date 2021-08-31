@@ -6,6 +6,9 @@
 package Interfaz;
 
 import AssetsLogin.TextPrompt;
+import static Interfaz.Main.AgregarDatosTrans;
+import static Interfaz.Main.ModificarDatosTrans;
+import static Interfaz.Main.autoId;
 import static Interfaz.Main.gcli;
 import static Interfaz.Main.gest;
 import static Interfaz.Main.init;
@@ -144,7 +147,8 @@ public class Login extends javax.swing.JFrame {
         }
 
     }
-
+//    ArrayList<Transacciones> ListaTran;
+//    File t = new File("transacciones.txt");
     public void tiposusuarios(int i) {
         if (Listausuarios.get(i).getTipoUsuario().equals("admin")) {
             //JOptionPane.showMessageDialog(null, "BIENBENIDO ADMIN");
@@ -152,18 +156,15 @@ public class Login extends javax.swing.JFrame {
              init.setVisible(false);
              gest.setVisible(true);
         }else if (Listausuarios.get(i).getTipoUsuario().equals("usuario")) {
-            //JOptionPane.showMessageDialog(null, "BIENBENIDO USUARIOS");
+            JOptionPane.showMessageDialog(null, "BIENBENIDO USUARIOS");
+//            ListaTran.add(new Transacciones(autoId(t),Integer.toString(i),"Login","0",fecha,hora));
+//            ModificarDatosTran(ListaTran,t);
             this.idUser = Listausuarios.get(i).getIdUsuario();
             this.setVisible(false);
             init.setVisible(false);
             gcli.setVisible(true);
         }
 }
-    
-    
-    
-    
-
     
 
     /**
@@ -256,8 +257,8 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //this.ListaTran = AgregarDatosTrans(ListaTran,t);
         iniciosecion();
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
