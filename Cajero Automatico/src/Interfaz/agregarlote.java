@@ -185,11 +185,10 @@ public class agregarlote extends javax.swing.JInternalFrame {
         dif = var2 - sum;
         this.jtsuma.setText(String.valueOf(sum));
         this.jtdif.setText(String.valueOf(dif));
-        if (dif > 0) {
+        if (dif <= var2) {
             JOptionPane.showMessageDialog(null, "CONFIGURACION ACEPTADA, PUEDE GUARDAR");
             this.jbguardar.setVisible(true);
-        } 
-        if(dif <0){
+        } else {
             JOptionPane.showMessageDialog(null, "NO SE PUEDE GUARDAR ESTA CONFIGURACION");
         }
     }
