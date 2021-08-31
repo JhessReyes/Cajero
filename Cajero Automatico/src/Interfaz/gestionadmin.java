@@ -144,13 +144,11 @@ public class gestionadmin extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btcusuariosActionPerformed
 
     private void btiniciarcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btiniciarcActionPerformed
-        if (cnt != 0) {
+        if (cnt == 0) {
             this.setVisible(false);
             incj.setVisible(true);
             cnt++;
-        } else {
-            JOptionPane.showMessageDialog(null, "YA SE INICIO CAJA ESTE DÍA");
-        }
+        } 
 
     }//GEN-LAST:event_btiniciarcActionPerformed
 
@@ -158,6 +156,7 @@ public class gestionadmin extends javax.swing.JInternalFrame {
         if (cnt != 0) {
             lote.setVisible(true);
             this.setVisible(false);
+            cnt=cnt-1;
         } else {
             JOptionPane.showMessageDialog(null, "NO A INICIADO CAJA");
         }
