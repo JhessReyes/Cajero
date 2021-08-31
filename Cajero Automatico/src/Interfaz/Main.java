@@ -33,6 +33,7 @@ public class Main extends javax.swing.JFrame {
     static TablaTransacciones tabtran = new TablaTransacciones();
     static agregarlote lote = new agregarlote();
     static modificarTarjeta mt = new modificarTarjeta();
+    static modificarLimite ml = new modificarLimite();
     
     static Date fechayhora = new Date();
     static SimpleDateFormat fech = new SimpleDateFormat("dd/MM/yyyy");
@@ -113,6 +114,8 @@ public class Main extends javax.swing.JFrame {
         lote.setVisible(false);
         Tiempo.add(mt);
         mt.setVisible(false);
+        Tiempo.add(ml);
+        ml.setVisible(false);
        // Time ventana = new Time();
 //        Tiempo.add(ventana);
 //        ventana.show();

@@ -8,6 +8,7 @@ package Interfaz;
 import static Interfaz.Main.incj;
 import static Interfaz.Main.init;
 import static Interfaz.Main.lote;
+import static Interfaz.Main.ml;
 import static Interfaz.Main.mt;
 import static Interfaz.Main.nuses;
 import javax.swing.JOptionPane;
@@ -169,7 +170,8 @@ public class gestionadmin extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
+        this.setVisible(false);
+        ml.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
