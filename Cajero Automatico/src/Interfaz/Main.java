@@ -5,6 +5,7 @@
  */
 package Interfaz;
 
+import clases.TarjetaU;
 import clases.Transacciones;
 import clases.usuarios;
 import java.awt.event.ActionEvent;
@@ -40,7 +41,7 @@ public class Main extends javax.swing.JFrame {
     static modificarTarjeta mt = new modificarTarjeta();
     static modificarLimite ml = new modificarLimite();
     static ControlUsuarios ctrlu = new ControlUsuarios();
-    
+    static ConsultaUsuario conus = new ConsultaUsuario();
     
     /**
      * Creates new form Main
@@ -71,6 +72,8 @@ public class Main extends javax.swing.JFrame {
         ml.setVisible(false);
         Tiempo.add(ctrlu);
         ctrlu.setVisible(false);
+        Tiempo.add(conus);
+        conus.setVisible(false);
        // Time ventana = new Time();
 //        Tiempo.add(ventana);
 //        ventana.show();
@@ -207,7 +210,55 @@ public class Main extends javax.swing.JFrame {
         }
         return ListaUser;
     }
-    
+    public static ArrayList<TarjetaU> AgregarDatosTJs(ArrayList<TarjetaU> ListaTarjetas, File f) {
+        String a = "";
+        String TipoUser = "";
+        ListaTarjetas = new ArrayList<>();
+        try {
+            FileReader Fr = new FileReader(f);
+            BufferedReader Br = new BufferedReader(Fr);
+            while ((a = Br.readLine()) != null) {
+                int cnt = 0;
+                String[] Usuarios = new String[7];
+                for (int x = 0; x < a.length(); x++) {
+                    char c = a.charAt(x);
+                    var regex = "\t";
+                    if (!Pattern.matches(regex, String.valueOf(c))) {
+                        TipoUser += String.valueOf(c);
+                    } else {
+                        if (cnt == 0) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        if (cnt == 1) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        if (cnt == 2) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        if (cnt == 3) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        if (cnt == 4) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        if (cnt == 5) {
+                            Usuarios[cnt] = TipoUser;
+                        }
+                        cnt++;
+                        TipoUser = "";
+                    }
+                    if (cnt == 6) {
+                        Usuarios[cnt] = TipoUser;
+                    }
+                }
+                ListaTarjetas.add(new TarjetaU(Usuarios[0], Usuarios[1], Usuarios[2], Usuarios[3], Usuarios[4], Usuarios[5], Usuarios[6]));
+                TipoUser = "";
+            }
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "No se Encontro el Archivo", "ERROR", 2);
+        }
+        return ListaTarjetas;
+    }
     public static String autoId(File f){
         String a = "";
         String contenido = "";

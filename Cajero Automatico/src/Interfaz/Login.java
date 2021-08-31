@@ -151,12 +151,12 @@ public class Login extends javax.swing.JFrame {
 //    File t = new File("transacciones.txt");
     public void tiposusuarios(int i) {
         if (Listausuarios.get(i).getTipoUsuario().equals("admin")) {
-            //JOptionPane.showMessageDialog(null, "BIENBENIDO ADMIN");
+            //JOptionPane.showMessageDialog(null, "BIENVENIDO ADMIN");
              this.setVisible(false);
              init.setVisible(false);
              gest.setVisible(true);
         }else if (Listausuarios.get(i).getTipoUsuario().equals("usuario")) {
-            JOptionPane.showMessageDialog(null, "BIENBENIDO USUARIOS");
+            JOptionPane.showMessageDialog(null, "BIENVENIDO " + Listausuarios.get(i).getNombre().toUpperCase());
 //            ListaTran.add(new Transacciones(autoId(t),Integer.toString(i),"Login","0",fecha,hora));
 //            ModificarDatosTran(ListaTran,t);
             this.idUser = Listausuarios.get(i).getIdUsuario();

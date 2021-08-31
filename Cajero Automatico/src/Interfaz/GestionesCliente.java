@@ -50,6 +50,7 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
    private String IdCliente;
    String saldoU;
    int idTransaccion;
+   String RetiroDisp;
     /**
      * Creates new form GestionesCliente
      */
@@ -97,10 +98,13 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
     
         //metodo para realizar retiros de la tarjeta
     public void retiro(){
+        limiteDiario();
         AgregarDatosTran(Transacciones);
         String retiro;
-        saldoU = ListaTarjetas.get(Integer.valueOf(idUser)).getSaldo();    
+        saldoU = ListaTarjetas.get(Integer.valueOf(idUser)).getSaldo();
         retiro=JOptionPane.showInputDialog(null,"¿Cuanto dinero desea retirar?","RETIRO",0).trim();
+
+        if(Integer.valueOf(retiro)<=Integer.valueOf(RetiroDisp)){
         int sal = Integer.valueOf(saldoU)-Integer.valueOf(retiro);
         if(Integer.valueOf(retiro)>Integer.valueOf(saldoU)){
             JOptionPane.showMessageDialog(null,"El saldo no es viable para completar esta transaccion","ERROR",0);
@@ -109,7 +113,9 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
             ListaTransacciones.add(new Transacciones(Integer.toString(idTransaccion),idUser,"Retiro",retiro,FeYHo.getText()));
             idTransaccion++;
             ModificarDatosTran(ListaTransacciones,Transacciones);
-        }
+        }            
+        }else JOptionPane.showMessageDialog(null,"No se le permiten más retiros por hoy","ERROR",0);
+
     }
     
         //metodo para realizar depositos en la tarjeta
@@ -147,11 +153,26 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
     }
     //metodo para mostrar saldos disponibles
     public void saldos(){
+        limiteDiario();
         String Sal = ListaTarjetas.get(Integer.valueOf(idUser)).getSaldo();
         String retiro = ListaTarjetas.get(Integer.valueOf(idUser)).getLRetiro();
         JOptionPane.showMessageDialog(null, "• Monto máximo de retiro     Q. " + retiro +"\n"+
-                                            "• Monto máximo de retiro diario disponible  Q. \n" +
-                                            "• Saldo Actual -> Q. "+Sal);
+                                            "• Monto máximo de retiro diario disponible  Q. "+RetiroDisp +"\n" +
+                                            "• Saldo Actual   Q. "+Sal+"\n" +
+                                            "• Total Retirado hoy  Q. "+limiteDiario());
+    }
+    public String limiteDiario(){
+        int result = 0;
+        for (int i = 0; i < ListaTransacciones.size(); i++) {
+            if(ListaTransacciones.get(i).getTipo().contentEquals("Retiro")){
+                result += Integer.valueOf(ListaTransacciones.get(i).getMonto());
+            }
+        }
+        
+        int RetiroDispo = Integer.valueOf(ListaTarjetas.get(Integer.valueOf(idUser)).getLRetiro())-result;
+        RetiroDisp = Integer.toString(RetiroDispo);
+        String tot=Integer.toString(result);
+        return tot;
     }
     
         //metodo para mostrar ultimos 5 registros
