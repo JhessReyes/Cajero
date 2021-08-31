@@ -48,13 +48,14 @@ public class agregarlote extends javax.swing.JInternalFrame {
         return DatosB;
     }
 
-//    public void datosV() {
-//       String saldo;
-//       saldo=DatosB.getSaldo();
-//       System.out.print(saldo);
-//    }
- 
-    
+    public void agregarbilete(ArrayList<cajero> ag, File f) {
+        ag.indexOf(GuardarBill());
+        int b1 = Integer.valueOf(ListaBillete.get(0).getB1() + this.jtbilletes1.getText());
+        System.out.print(b1);
+        ListaBillete.get(ag.indexOf(GuardarBill()));
+
+    }
+
     public void AgregarDatosB(File f) {
         String a = "";
         String TipoUser = "";
@@ -107,17 +108,42 @@ public class agregarlote extends javax.swing.JInternalFrame {
                     }
                 }
                 ListaBillete.add(new cajero(Usuarios[0], Usuarios[1], Usuarios[2], Usuarios[3], Usuarios[4], Usuarios[5], Usuarios[6], Usuarios[7], Usuarios[8]));
-
                 TipoUser = "";
 
-                //JOptionPane.showMessageDialog(null,Listausuarios.get(0).getNombre());
+                int b1 = Integer.valueOf(ListaBillete.get(0).getB1());
+                int b5 = Integer.valueOf(ListaBillete.get(0).getB5());
+                int b10 = Integer.valueOf(ListaBillete.get(0).getB10());
+                int b20 = Integer.valueOf(ListaBillete.get(0).getB20());
+                int b50 = Integer.valueOf(ListaBillete.get(0).getB50());
+                int b100 = Integer.valueOf(ListaBillete.get(0).getB100());
+                int b200 = Integer.valueOf(ListaBillete.get(0).getB200());
+                int btt = Integer.valueOf(ListaBillete.get(0).getTotal());
+                int bsl = Integer.valueOf(ListaBillete.get(0).getSaldo());
+
+                b1 = b1 + (Integer.valueOf(this.jtbilletes1.getText()));
+                b5 = b5 + (Integer.valueOf(this.jtbilletes2.getText()));
+                b10 = b10 + (Integer.valueOf(this.jtbilletes3.getText()));
+                b20 = b20 + (Integer.valueOf(this.jtbilletes4.getText()));
+                b50 = b50 + (Integer.valueOf(this.jtbilletes5.getText()));
+                b100 = b100 + (Integer.valueOf(this.jtbilletes6.getText()));
+                b200 = b200 + (Integer.valueOf(this.jtbilletes7.getText()));
+                btt = Integer.valueOf(this.jtlimite.getText());
+                bsl = (b1*1)+(b5*5)+(b10*10)+(b20*20)+(b50*50)+(b100*100)+(b200*200);
+                
+                
+                
+                ListaBillete.add(new cajero(String.valueOf(b1),String.valueOf(b5),String.valueOf(b10),String.valueOf(b20),String.valueOf(b50),String.valueOf(b100),String.valueOf(b200),String.valueOf(btt),String.valueOf(bsl)));
+                
+                JOptionPane.showMessageDialog(null, "EL SALDO ACTUAL DEL CAJERO ES DE: "+bsl);
             }
-            ListaBillete.add(GuardarBill());
+            //ListaBillete.add(GuardarBill());
+
+            //agregarbilete( ListaBillete,billete);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "No se Encontro el Archivo", "ERROR", 2);
         }
-        //ModificarDatosB(ListaBillete, billete);
-        agregarbilete( ListaBillete,billete);
+        ModificarDatosB(ListaBillete, billete);
+
     }
 
     public void ModificarDatosB(ArrayList<cajero> a, File b) {
@@ -176,19 +202,12 @@ public class agregarlote extends javax.swing.JInternalFrame {
         this.jtbilletes5.setText("");
         this.jtbilletes6.setText("");
         this.jtbilletes7.setText("");
-        this.jtlimite.setText("10000");
+        this.jtlimite.setText("30000");
         this.jtsuma.setText("");
+        this.jtdif.setText("");
         this.setVisible(false);
         gest.setVisible(true);
 
-    }
-    
-    public void agregarbilete(ArrayList<cajero> ag,File f){
-        ag.indexOf(GuardarBill());
-        int b1= Integer.valueOf(ListaBillete.get(0).getB1()+this.jtbilletes1.getText());
-        System.out.print(b1);
-        ListaBillete.get(ag.indexOf(GuardarBill()));
-        
     }
 
     /**
@@ -222,15 +241,11 @@ public class agregarlote extends javax.swing.JInternalFrame {
         jtsuma = new javax.swing.JTextField();
         jtdif = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jbguardar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jtsaldo = new javax.swing.JTextField();
 
         jLabel1.setText("INGRESE LA CANTIDAD DE DINERO DEL DIA");
 
@@ -250,42 +265,49 @@ public class agregarlote extends javax.swing.JInternalFrame {
 
         jLabel9.setText("Q200");
 
+        jtbilletes7.setText("0");
         jtbilletes7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtbilletes7ActionPerformed(evt);
             }
         });
 
+        jtbilletes6.setText("0");
         jtbilletes6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtbilletes6ActionPerformed(evt);
             }
         });
 
+        jtbilletes5.setText("0");
         jtbilletes5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtbilletes5ActionPerformed(evt);
             }
         });
 
+        jtbilletes4.setText("0");
         jtbilletes4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtbilletes4ActionPerformed(evt);
             }
         });
 
+        jtbilletes3.setText("0");
         jtbilletes3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtbilletes3ActionPerformed(evt);
             }
         });
 
+        jtbilletes1.setText("0");
         jtbilletes1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtbilletes1ActionPerformed(evt);
             }
         });
 
+        jtbilletes2.setText("0");
         jtbilletes2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtbilletes2ActionPerformed(evt);
@@ -294,11 +316,15 @@ public class agregarlote extends javax.swing.JInternalFrame {
 
         jLabel10.setText("LIMITE PERMITIDO");
 
+        jtlimite.setText("0");
+
         jLabel11.setText("TOTAL INGRESADO");
 
-        jLabel15.setText("Q");
+        jtsuma.setText("0");
 
-        jLabel14.setText("DIFERENCIA");
+        jtdif.setText("0");
+
+        jLabel15.setText("Q");
 
         jLabel13.setText("Q");
 
@@ -320,10 +346,6 @@ public class agregarlote extends javax.swing.JInternalFrame {
 
         jLabel16.setText("DIFERENCIA");
 
-        jLabel17.setText("SALDO ACTUAL");
-
-        jLabel18.setText("Q");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -332,7 +354,7 @@ public class agregarlote extends javax.swing.JInternalFrame {
                 .addGap(159, 159, 159)
                 .addComponent(jLabel1)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -355,49 +377,42 @@ public class agregarlote extends javax.swing.JInternalFrame {
                             .addComponent(jtbilletes1, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtbilletes7)))
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbguardar))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jbguardar, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel16))
                         .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtlimite, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel12)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jtlimite, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jLabel18)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jtsaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel13)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jtsuma, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel15)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jtdif, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addComponent(jLabel17))
-                .addGap(30, 30, 30))
+                                    .addComponent(jLabel13)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jtsuma, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel15)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jtdif, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addGap(56, 56, 56))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -414,21 +429,7 @@ public class agregarlote extends javax.swing.JInternalFrame {
                         .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jtbilletes4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(5, 5, 5)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jtbilletes5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(jtbilletes6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(5, 5, 5)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(jtbilletes7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbguardar)
-                            .addComponent(jButton1)))
+                            .addComponent(jtbilletes4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
@@ -436,27 +437,37 @@ public class agregarlote extends javax.swing.JInternalFrame {
                             .addComponent(jtlimite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel16))
+                            .addComponent(jLabel11)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jtsuma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel13))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jtdif, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel15))
-                                    .addComponent(jLabel14))))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel17)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel18)
-                                .addComponent(jtsaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(45, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jtdif, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel15)
+                                    .addComponent(jLabel16))))
+                        .addGap(32, 32, 32)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(jtbilletes5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(4, 4, 4))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jbguardar))
+                        .addGap(11, 11, 11)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jtbilletes6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jtbilletes7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         pack();
@@ -491,12 +502,14 @@ public class agregarlote extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jtbilletes2ActionPerformed
 
     private void jbguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbguardarActionPerformed
-       
+        AgregarDatosB(billete);
+        limpiar();
     }//GEN-LAST:event_jbguardarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
- AgregarDatosB( billete);
-        
+
+        limitecajero();
+
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -508,11 +521,8 @@ public class agregarlote extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -531,7 +541,6 @@ public class agregarlote extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtbilletes7;
     private javax.swing.JTextField jtdif;
     private javax.swing.JTextField jtlimite;
-    private javax.swing.JTextField jtsaldo;
     private javax.swing.JTextField jtsuma;
     // End of variables declaration//GEN-END:variables
 }
