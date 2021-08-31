@@ -8,6 +8,7 @@ package Interfaz;
 import static Interfaz.Main.incj;
 import static Interfaz.Main.init;
 import static Interfaz.Main.lote;
+import static Interfaz.Main.mt;
 import static Interfaz.Main.nuses;
 import javax.swing.JOptionPane;
 
@@ -17,9 +18,8 @@ import javax.swing.JOptionPane;
  */
 public class gestionadmin extends javax.swing.JInternalFrame {
 
-    
-    int cnt=0;
-    
+    int cnt = 0;
+
     /**
      * Creates new form gestionadmin
      */
@@ -68,8 +68,18 @@ public class gestionadmin extends javax.swing.JInternalFrame {
         });
 
         jButton2.setText("Modificar No. Tarjeta");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Modificar Limite");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Consulta de Usuario");
 
@@ -133,30 +143,39 @@ public class gestionadmin extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btcusuariosActionPerformed
 
     private void btiniciarcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btiniciarcActionPerformed
-        if(cnt !=0){
-         this.setVisible(false);
-        incj.setVisible(true);
-        cnt++;
-        }else{
-        JOptionPane.showMessageDialog(null, "YA SE INICIO CAJA ESTE DÍA");
+        if (cnt != 0) {
+            this.setVisible(false);
+            incj.setVisible(true);
+            cnt++;
+        } else {
+            JOptionPane.showMessageDialog(null, "YA SE INICIO CAJA ESTE DÍA");
         }
-       
+
     }//GEN-LAST:event_btiniciarcActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(cnt !=0){
-        lote.setVisible(true);
-        this.setVisible(false);
-        }else{
-        JOptionPane.showMessageDialog(null, "NO A INICIADO CAJA");
+        if (cnt != 0) {
+            lote.setVisible(true);
+            this.setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "NO A INICIADO CAJA");
         }
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         this.setVisible(false);
         init.setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.setVisible(false);
+        mt.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
