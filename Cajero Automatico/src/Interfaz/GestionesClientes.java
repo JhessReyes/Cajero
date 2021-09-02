@@ -5,10 +5,13 @@
  */
 package Interfaz;
 
+
 import static Interfaz.Login.idUser;
+import static Interfaz.Main.AgregarDatosTJs;
 import static Interfaz.Main.ModificarDatosTrans;
 import static Interfaz.Main.AgregarDatosTrans;
 import static Interfaz.Main.autoId;
+import static Interfaz.Main.depcli;
 import static Interfaz.Main.init;
 import static Interfaz.Time.*;
 import static Interfaz.Main.tabtran;
@@ -39,7 +42,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Reyes
  */
-public class GestionesCliente extends javax.swing.JInternalFrame {
+public class GestionesClientes extends javax.swing.JInternalFrame {
 
     private final JComponent northPane;
     private Border border;
@@ -61,7 +64,7 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
     /**
      * Creates new form GestionesCliente
      */
-    public GestionesCliente() {
+    public GestionesClientes() {
         initComponents();
         ListaUser = new ArrayList<>();
         northPane = ((BasicInternalFrameUI) getUI()).getNorthPane();
@@ -112,10 +115,10 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
         retiro = JOptionPane.showInputDialog(null, "¿Cuanto dinero desea retirar?", "RETIRO", 0).trim();
         if (Integer.valueOf(retiro) <= Integer.valueOf(RetiroDisp)) {
             int sal = Integer.valueOf(saldoU) - Integer.valueOf(retiro);
-            AgregarDatosB(billete,retiro);
             if (Integer.valueOf(retiro) > Integer.valueOf(saldoU)) {
                 JOptionPane.showMessageDialog(null, "El saldo no es viable para completar esta transaccion", "ERROR", 0);
             } else {
+                AgregarDatosB(billete,retiro);
                 ModificarDatosTJ(ListaTarjetas, tarjetas, Integer.toString(sal));
                 ListaTransacciones.add(new Transacciones(Integer.toString(idTransaccion), idUser, "Retiro", retiro, FeYHo.getText()));
                 idTransaccion++;
@@ -183,6 +186,7 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
                 ListaBillete.add(new cajero(Usuarios[0], Usuarios[1], Usuarios[2], Usuarios[3], Usuarios[4], Usuarios[5], Usuarios[6], Usuarios[7], Usuarios[8]));
                 TipoUser = "";
 
+                
                 int b1 = Integer.valueOf(ListaBillete.get(0).getB1());
                 int b2 = Integer.valueOf(ListaBillete.get(0).getB5());
                 int b3 = Integer.valueOf(ListaBillete.get(0).getB10());
@@ -190,26 +194,48 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
                 int b5 = Integer.valueOf(ListaBillete.get(0).getB50());
                 int b6 = Integer.valueOf(ListaBillete.get(0).getB100());
                 int b7 = Integer.valueOf(ListaBillete.get(0).getB200());
-                
-                
                 int btt = Integer.valueOf(ListaBillete.get(0).getTotal());
                 int bsl = Integer.valueOf(ListaBillete.get(0).getSaldo());
-
+                
+                int ax1,ax2,ax3,ax4,ax5,ax6,ax7;
+                ax1=b1; ax2=b2; ax3=b3; ax4=b4; ax5=b5; ax6=b6; ax7=b7;
                 
                 int rt = Integer.valueOf(ret);
+                int disp = Integer.valueOf(ret);
+
+                if(ax7>0){ ax7-=B7(rt); rt-=200*B7(rt);}
+                if(ax6>0){ ax6-=B6(rt); rt-=100*B6(rt);}
+                if(ax5>0){ ax5-=B5(rt); rt-=50*B5(rt);}
+                if(ax4>0){ ax4-=B4(rt); rt-=20*B4(rt);}
+                if(ax3>0){ ax3-=B3(rt); rt-=10*B3(rt);}
+                if(ax2>0){ ax2-=B2(rt); rt-=5*B2(rt);}
+                if(ax1>0){ ax1-=B1(rt); rt-=1*B1(rt);}
                 
-                
-                
-                
+                if(rt!=0) JOptionPane.showMessageDialog(null, "NO HAY SALDO/BILLETES SUFICIENTES PARA EL RETIRO EN EL CAJERO: ");else{
+                    int rts =Integer.valueOf(ret);
+                    if(b7>0){ b7-=B7(rts); rt-=200*B7(rts);}
+                    if(b6>0){ b6-=B6(rts); rt-=100*B6(rts);}
+                    if(b5>0){ b5-=B5(rts); rt-=50*B5(rts);}
+                    if(b4>0){ b4-=B4(rts); rt-=20*B4(rts);}
+                    if(b3>0){ b3-=B3(rts); rt-=10*B3(rts);}
+                    if(b2>0){ b2-=B2(rts); rt-=5*B2(rts);}
+                    if(b1>0){ b1-=B1(rts); rt-=1*B1(rts);}
+                    bsl-=rts;                    
+                }
+                //for(int i=1;i<=7;i++){
+//                    rt=rt%b1;
+//                    System.out.print(rt);
+                //}
                 
                 
                 //LIMPIAR TXT Y DEJAR UNICAMENTE EL SALDO ACTUAN CON EL NUMERO 
                 //ACTUAL DE BILLETES
-//                limpiartxt(f);
-//                ListaBillete.clear();
-
+                limpiartxt(f);
+                ListaBillete.clear();
                 ListaBillete.add(new cajero(String.valueOf(b1), String.valueOf(b2), String.valueOf(b3), String.valueOf(b4), String.valueOf(b5), String.valueOf(b6), String.valueOf(b7), String.valueOf(btt), String.valueOf(bsl)));
-                JOptionPane.showMessageDialog(null, "EL SALDO ACTUAL DEL CAJERO ES DE: " + bsl);
+                JOptionPane.showMessageDialog(null, "BILLETES DISPONIBLES\n"+
+                        "Q1->"+b1+"\n"+"Q5->"+b2+"\n"+"Q10->"+b3+"\n"+"Q20->"+b4+"\n"+"Q50->"+b5+"\n"+"Q100->"+b6+"\n"+"Q200->"+b7+"\n"
+                        + "EL SALDO ACTUAL DEL CAJERO ES DE: " + bsl);
             }
             //ListaBillete.add(GuardarBill());
 
@@ -218,8 +244,74 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "No se Encontro el Archivo", "ERROR", 2);
         }
 
-//        ModificarDatosB(ListaBillete, billete);
+        ModificarDatosB(ListaBillete, billete);
 
+    }
+    
+    public int B7(int retiro){
+        int cantidad =0;
+        if(retiro>=200){
+            retiro-=200;
+            cantidad++;
+            B7(retiro);
+        }
+        return cantidad;
+    }
+    
+    public int B6(int retiro){
+        int cantidad =0;
+        if(retiro>=100){
+            retiro-=100;
+            cantidad++;
+            B7(retiro);
+        }
+        return cantidad;
+    }
+    
+    public int B5(int retiro){
+        int cantidad =0;
+        if(retiro>=50){
+            retiro-=50;
+            cantidad++;
+            B7(retiro);
+        }
+        return cantidad;
+    }
+    public int B4(int retiro){
+        int cantidad =0;
+        if(retiro>=20){
+            retiro-=20;
+            cantidad++;
+            B7(retiro);
+        }
+        return cantidad;
+    }
+    public int B3(int retiro){
+        int cantidad =0;
+        if(retiro>=10){
+            retiro-=10;
+            cantidad++;
+            B7(retiro);
+        }
+        return cantidad;
+    }
+    public int B2(int retiro){
+        int cantidad =0;
+        if(retiro>=5){
+            retiro-=5;
+            cantidad++;
+            B7(retiro);
+        }
+        return cantidad;
+    }
+    public int B1(int retiro){
+        int cantidad =0;
+        if(retiro>=1){
+            retiro-=1;
+            cantidad++;
+            B7(retiro);
+        }
+        return cantidad;
     }
 
     public void ModificarDatosB(ArrayList<cajero> a, File b) {
@@ -263,18 +355,19 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
     }
 
     //metodo para realizar depositos en la tarjeta
-    public void deposito() {
-        AgregarDatosTJ(tarjetas);
-        AgregarDatosTran(Transacciones);
-        String deposito;
-        saldoU = ListaTarjetas.get(Integer.valueOf(idUser)).getSaldo();
-        deposito = JOptionPane.showInputDialog(null, "¿Cuanto dinero desea ingresar?", "DEPOSITO", 0).trim();
-        int sal = Integer.valueOf(saldoU) + Integer.valueOf(deposito);
-        ModificarDatosTJ(ListaTarjetas, tarjetas, Integer.toString(sal));
-        ListaTransacciones.add(new Transacciones(Integer.toString(idTransaccion), idUser, "Deposito", deposito, FeYHo.getText()));
-        idTransaccion++;
-        ModificarDatosTran(ListaTransacciones, Transacciones);
-    }
+//    public void deposito() {
+//        DepositoCliente dp = new DepositoCliente();
+//        AgregarDatosTJ(tarjetas);
+//        AgregarDatosTran(Transacciones);
+////        String deposito;
+//        saldoU = ListaTarjetas.get(Integer.valueOf(idUser)).getSaldo();
+//        //deposito = JOptionPane.showInputDialog(null, "¿Cuanto dinero desea ingresar?", "DEPOSITO", 0).trim();
+//        int sal = Integer.valueOf(saldoU) + Integer.valueOf(dp.getDepo());
+//        ModificarDatosTJ(ListaTarjetas, tarjetas, Integer.toString(sal));
+//        ListaTransacciones.add(new Transacciones(Integer.toString(idTransaccion), idUser, "Deposito", dp.getDepo(), FeYHo.getText()));
+//        idTransaccion++;
+//        ModificarDatosTran(ListaTransacciones, Transacciones);
+//    }
 
     //metodo para cambiar pin
     public void cambpin() {
@@ -676,6 +769,9 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
 
     private void jbDepositoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDepositoActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
+        //jtlimite.setText(ListaTarjetas.get(Integer.valueOf(idUser)).getLRetiro());
+        depcli.setVisible(true);
         deposito();
     }//GEN-LAST:event_jbDepositoActionPerformed
 
@@ -686,6 +782,7 @@ public class GestionesCliente extends javax.swing.JInternalFrame {
 
     private void jbSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSaldoActionPerformed
         // TODO add your handling code here:
+        //this.ListaTarjetas = AgregarDatosTJs(ListaTarjetas, tarjetas);
         saldos();
     }//GEN-LAST:event_jbSaldoActionPerformed
 

@@ -35,13 +35,14 @@ public class Main extends javax.swing.JFrame {
     static gestionadmin gest = new gestionadmin();  
     static newusuario nuses = new newusuario();
     static iniciarcajero incj = new iniciarcajero();
-    static GestionesCliente gcli = new GestionesCliente();
+    static GestionesClientes gcli = new GestionesClientes();
     static TablaTransacciones tabtran = new TablaTransacciones();
     static agregarlote lote = new agregarlote();
     static modificarTarjeta mt = new modificarTarjeta();
     static modificarLimite ml = new modificarLimite();
     static ControlUsuarios ctrlu = new ControlUsuarios();
     static ConsultaUsuario conus = new ConsultaUsuario();
+    static DepositoCliente depcli = new DepositoCliente();
     
     /**
      * Creates new form Main
@@ -74,21 +75,9 @@ public class Main extends javax.swing.JFrame {
         ctrlu.setVisible(false);
         Tiempo.add(conus);
         conus.setVisible(false);
-       // Time ventana = new Time();
-//        Tiempo.add(ventana);
-//        ventana.show();
-       
-        //Tiempo.add(ventana);
-//        InicioUsuario init = new InicioUsuario();
-//        Tiempo.add(init);
-//        init.show();
-        //ventana.setVisible(true);
-//        btnAd.setOpaque(false);
-//        btnAd.setBorderPainted(false);
-//        btnAd.setContentAreaFilled(false);
-//        btnIng.setOpaque(false);
-//        btnIng.setBorderPainted(false);
-//        btnIng.setContentAreaFilled(false);
+        Tiempo.add(depcli);
+        depcli.setVisible(false);
+
 
     }
         public static void RemoveDatos(JTable tb, DefaultTableModel db){
