@@ -4,5 +4,3 @@
 3	jhonatan	reyes	1919	8888	admin
 4	Jhonatan	Riv	1616	4444	usuario
 5	Pedro	Sanchez	pSanchez	2323	admin
-6	Carlos	Perez	12345	808080	usuario
-7	prueba	prueba	1234	1234512345123456	usuario
