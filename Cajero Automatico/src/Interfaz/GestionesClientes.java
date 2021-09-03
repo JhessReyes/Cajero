@@ -208,7 +208,7 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
         int btt = Integer.valueOf(ListaBillete.get(0).getTotal());
         int bsl = Integer.valueOf(ListaBillete.get(0).getSaldo());
                                 
-            int rt = Integer.valueOf(ret);
+        int rt = Integer.valueOf(ret);
         int rts =Integer.valueOf(ret);
         if(b7>=B7(rts,0)){ b7-=B7(rts,0); rts-=200*B7(rts,0);}
         if(b6>=B6(rts,0)){ b6-=B6(rts,0); rts-=100*B6(rts,0);}
@@ -224,9 +224,7 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
             retiro = true;
         }else{
             JOptionPane.showMessageDialog(null, "NO HAY SALDO/BILLETES SUFICIENTES PARA EL RETIRO EN EL CAJERO: ");
-            JOptionPane.showMessageDialog(null, "BILLETES DISPONIBLES\n"+
-                "Q1 "+b1+"\n"+"Q5 "+b2+"\n"+"Q10 "+b3+"\n"+"Q20 "+b4+"\n"+"Q50 "+b5+"\n"+"Q100 "+b6+"\n"+"Q200 "+b7+"\n"
-                + "EL SALDO ACTUAL DEL CAJERO ES DE: " + bsl);
+            Denominaciones("0");
             retiro = false;
         }
         return retiro;
