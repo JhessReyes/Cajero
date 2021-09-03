@@ -5,8 +5,14 @@
  */
 package Interfaz;
 
+import static Interfaz.GestionesClientes.idTransaccion;
+import static Interfaz.GestionesClientes.saldoU;
 import static Interfaz.Login.idUser;
 import static Interfaz.Main.AgregarDatosTJs;
+import static Interfaz.Main.AgregarDatosTrans;
+import static Interfaz.Main.ModificarDatosTJs;
+import static Interfaz.Main.ModificarDatosTrans;
+import static Interfaz.Main.autoId;
 import static Interfaz.Main.gcli;
 import static Interfaz.Main.gest;
 import static Interfaz.Time.FeYHo;
@@ -37,9 +43,15 @@ public class DepositoCliente extends javax.swing.JInternalFrame {
      * Creates new form agregarlote
      */
     ArrayList<TarjetaU> ListaTarjetas;
+    ArrayList<Transacciones> ListaTransacciones;
+
     File billete = new File("billetes.txt");
     File tar = new File("tarjetas.txt");
+    File tr = new File("transacciones.txt");
+    
+
     private String Depo;
+//    int idTransaccion = Integer.valueOf(autoId(tr));
 
     public String getDepo() {
         return Depo;
@@ -54,30 +66,29 @@ public class DepositoCliente extends javax.swing.JInternalFrame {
     public DepositoCliente() {
         initComponents();
         ListaBillete = new ArrayList<>();
-        this.jtlimite.setText(String.valueOf(30000));
-        this.jbguardar.setVisible(false);
-
+//        this.jtlimite.setText(String.valueOf(30000));
     }
 
     cajero DatosB;
     ArrayList<cajero> ListaBillete;
     ArrayList<cajero> db;
 
-    public cajero GuardarBill() {
-        DatosB = new cajero(jtbilletes1.getText(), jtbilletes2.getText(), jtbilletes3.getText(),
-                jtbilletes4.getText(), jtbilletes5.getText(), jtbilletes6.getText(), jtbilletes7.getText(),
-                jtlimite.getText(), jtsuma.getText()
-        );
-        return DatosB;
-    }
+//    public cajero GuardarBill() {
+//        DatosB = new cajero(jtbilletes1.getText(), jtbilletes2.getText(), jtbilletes3.getText(),
+//                jtbilletes4.getText(), jtbilletes5.getText(), jtbilletes6.getText(), jtbilletes7.getText(),
+//                jtlimite.getText(), jtsuma.getText()
+//        );
+//        
+//        return DatosB;
+//    }
 
-    public void agregarbilete(ArrayList<cajero> ag, File f) {
-        ag.indexOf(GuardarBill());
-        int b1 = Integer.valueOf(ListaBillete.get(0).getB1() + this.jtbilletes1.getText());
-        System.out.print(b1);
-        ListaBillete.get(ag.indexOf(GuardarBill()));
-
-    }
+//    public void agregarbilete(ArrayList<cajero> ag, File f) {
+//        ag.indexOf(GuardarBill());
+//        int b1 = Integer.valueOf(ListaBillete.get(0).getB1() + this.jtbilletes1.getText());
+//        System.out.print(b1);
+//        ListaBillete.get(ag.indexOf(GuardarBill()));
+//
+//    }
 
     public void AgregarDatosB(File f) {
         String a = "";
@@ -151,7 +162,7 @@ public class DepositoCliente extends javax.swing.JInternalFrame {
                 b50 = b50 + (Integer.valueOf(this.jtbilletes5.getText()));
                 b100 = b100 + (Integer.valueOf(this.jtbilletes6.getText()));
                 b200 = b200 + (Integer.valueOf(this.jtbilletes7.getText()));
-                btt = Integer.valueOf(this.jtlimite.getText());
+//                btt = Integer.valueOf(this.jtlimite.getText());
                 bsl = (b1 * 1) + (b5 * 5) + (b10 * 10) + (b20 * 20) + (b50 * 50) + (b100 * 100) + (b200 * 200);
                 
                 //LIMPIAR TXT Y DEJAR UNICAMENTE EL SALDO ACTUAN CON EL NUMERO 
@@ -215,13 +226,12 @@ public class DepositoCliente extends javax.swing.JInternalFrame {
         dif = var2 - sum;
         this.jtsuma.setText(String.valueOf(sum));
         this.setDepo(String.valueOf(sum));
-        this.jtdif.setText(String.valueOf(dif));
-        if (dif <= var2) {
-            JOptionPane.showMessageDialog(null, "CONFIGURACION ACEPTADA, PUEDE GUARDAR");
-            this.jbguardar.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(null, "NO SE PUEDE GUARDAR ESTA CONFIGURACION");
-        }
+//        if (dif <= var2) {
+//            JOptionPane.showMessageDialog(null, "CONFIGURACION ACEPTADA, PUEDE GUARDAR");
+//            this.jbguardar.setVisible(true);
+//        } else {
+//            JOptionPane.showMessageDialog(null, "NO SE PUEDE GUARDAR ESTA CONFIGURACION");
+//        }
     }
 
     public void limpiar() {
@@ -232,9 +242,7 @@ public class DepositoCliente extends javax.swing.JInternalFrame {
         this.jtbilletes5.setText("0");
         this.jtbilletes6.setText("0");
         this.jtbilletes7.setText("0");
-        this.jtlimite.setText("0");
         this.jtsuma.setText("");
-        this.jtdif.setText("");
         this.setVisible(false);
         gcli.setVisible(true);
 
@@ -251,19 +259,18 @@ public class DepositoCliente extends javax.swing.JInternalFrame {
         }
 
     }
-//        public void deposito() {
-//        DepositoCliente dp = new DepositoCliente();
-//        AgregarDatosTJ(tarjetas);
-//        AgregarDatosTran(Transacciones);
-////        String deposito;
-//        saldoU = ListaTarjetas.get(Integer.valueOf(idUser)).getSaldo();
-//        //deposito = JOptionPane.showInputDialog(null, "¿Cuanto dinero desea ingresar?", "DEPOSITO", 0).trim();
-//        int sal = Integer.valueOf(saldoU) + Integer.valueOf(dp.getDepo());
-//        ModificarDatosTJ(ListaTarjetas, tarjetas, Integer.toString(sal));
-//        ListaTransacciones.add(new Transacciones(Integer.toString(idTransaccion), idUser, "Deposito", dp.getDepo(), FeYHo.getText()));
-//        idTransaccion++;
-//        ModificarDatosTran(ListaTransacciones, Transacciones);
-//    }
+        public void deposito(String saldo) {
+        this.ListaTarjetas = AgregarDatosTJs(ListaTarjetas,tar);
+        this.ListaTransacciones= AgregarDatosTrans(ListaTransacciones,tr);
+//        String deposito;
+        String saldoU = ListaTarjetas.get(Integer.valueOf(idUser)).getSaldo();
+        //deposito = JOptionPane.showInputDialog(null, "¿Cuanto dinero desea ingresar?", "DEPOSITO", 0).trim();
+        int sal = Integer.valueOf(saldoU) + Integer.valueOf(saldo);
+        ModificarDatosTJs(ListaTarjetas, tar, Integer.toString(sal), idUser);
+        ListaTransacciones.add(new Transacciones(Integer.toString(idTransaccion), idUser, "Deposito", saldo, FeYHo.getText()));
+        idTransaccion++;
+        ModificarDatosTrans(ListaTransacciones, tr);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -286,22 +293,15 @@ public class DepositoCliente extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         jtbilletes7 = new javax.swing.JTextField();
         jtbilletes6 = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jbguardar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jLabel16 = new javax.swing.JLabel();
         jtbilletes5 = new javax.swing.JTextField();
         jtbilletes4 = new javax.swing.JTextField();
         jtbilletes3 = new javax.swing.JTextField();
         jtbilletes1 = new javax.swing.JTextField();
         jtbilletes2 = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        jtlimite = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jtsuma = new javax.swing.JTextField();
-        jtdif = new javax.swing.JTextField();
         jtsalir = new javax.swing.JButton();
 
         jLabel1.setText("INGRESE EL NUEVO LOTE DE DINERO PARA LA CAJA");
@@ -338,27 +338,14 @@ public class DepositoCliente extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel15.setText("Q");
-
         jLabel13.setText("Q");
 
-        jLabel12.setText("Q");
-
-        jbguardar.setText("GUARDAR");
-        jbguardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbguardarActionPerformed(evt);
-            }
-        });
-
-        jButton1.setText("COMPROBAR");
+        jButton1.setText("DEPOSITAR");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-
-        jLabel16.setText("DIFERENCIA");
 
         jtbilletes5.setText("0");
         jtbilletes5.addActionListener(new java.awt.event.ActionListener() {
@@ -395,15 +382,9 @@ public class DepositoCliente extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel10.setText("LIMITE PERMITIDO");
-
-        jtlimite.setText("0");
-
         jLabel11.setText("TOTAL INGRESADO");
 
         jtsuma.setText("0");
-
-        jtdif.setText("0");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -411,6 +392,7 @@ public class DepositoCliente extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -429,31 +411,16 @@ public class DepositoCliente extends javax.swing.JInternalFrame {
                             .addComponent(jtbilletes3, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtbilletes2, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtbilletes1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtbilletes7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel16))
-                    .addComponent(jButton1))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtlimite, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel13)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jtsuma, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel15)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jtdif, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jbguardar))
+                            .addComponent(jtbilletes7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addGap(28, 28, 28)
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtsuma, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addGap(46, 46, 46))
         );
         jPanel1Layout.setVerticalGroup(
@@ -463,46 +430,32 @@ public class DepositoCliente extends javax.swing.JInternalFrame {
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(jtbilletes1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel11)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jtbilletes1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(jtbilletes2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jtbilletes3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel12)
-                            .addComponent(jtlimite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jtsuma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel13))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jtdif, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel15)
-                                    .addComponent(jLabel16))))))
-                .addGap(6, 6, 6)
+                            .addComponent(jtsuma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel13))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4)
+                    .addComponent(jtbilletes2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jtbilletes3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addGap(4, 4, 4)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jtbilletes4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4)
+                .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jtbilletes5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jbguardar))
-                .addGap(7, 7, 7)
+                    .addComponent(jtbilletes5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(jtbilletes6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -578,37 +531,30 @@ public class DepositoCliente extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jtbilletes2ActionPerformed
 
-    private void jbguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbguardarActionPerformed
-        this.ListaTarjetas = AgregarDatosTJs(ListaTarjetas,tar);
-        AgregarDatosB(billete);
-        this.setVisible(false);
-        gcli.setVisible(true);
-        //limpiar();
-    }//GEN-LAST:event_jbguardarActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         ListaBillete = new ArrayList<>();
         db = new ArrayList();
-        //limitecajero();
-        this.jbguardar.setVisible(true);
+        limitecajero();
+        deposito(jtsuma.getText());
+        //this.jbguardar.setVisible(true);
+        AgregarDatosB(billete);
+        this.setVisible(false);
+        gcli.setVisible(true);
+        limpiar();
 
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jtsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtsalirActionPerformed
-        //limpiar();
+        limpiar();
     }//GEN-LAST:event_jtsalirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -618,7 +564,6 @@ public class DepositoCliente extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton jbguardar;
     private javax.swing.JTextField jtbilletes1;
     private javax.swing.JTextField jtbilletes2;
     private javax.swing.JTextField jtbilletes3;
@@ -626,8 +571,6 @@ public class DepositoCliente extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtbilletes5;
     private javax.swing.JTextField jtbilletes6;
     private javax.swing.JTextField jtbilletes7;
-    private javax.swing.JTextField jtdif;
-    private javax.swing.JTextField jtlimite;
     private javax.swing.JButton jtsalir;
     private javax.swing.JTextField jtsuma;
     // End of variables declaration//GEN-END:variables

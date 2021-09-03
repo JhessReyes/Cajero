@@ -7,7 +7,6 @@ package Interfaz;
 
 
 import static Interfaz.Login.idUser;
-import static Interfaz.Main.AgregarDatosTJs;
 import static Interfaz.Main.ModificarDatosTrans;
 import static Interfaz.Main.AgregarDatosTrans;
 import static Interfaz.Main.autoId;
@@ -57,8 +56,8 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
     ArrayList<cajero> ListaBillete = new ArrayList<>();
 
     private String IdCliente;
-    String saldoU;
-    int idTransaccion;
+    public static String saldoU;
+    public static int idTransaccion;
     String RetiroDisp;
 
     /**
@@ -109,6 +108,7 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
     //metodo para realizar retiros de la tarjeta
     public void retiro() {
         limiteDiario();
+        AgregarDatosB(billete);
         AgregarDatosTran(Transacciones);  
         String retiro;
         saldoU = ListaTarjetas.get(Integer.valueOf(idUser)).getSaldo();
@@ -118,11 +118,12 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
             if (Integer.valueOf(retiro) > Integer.valueOf(saldoU)) {
                 JOptionPane.showMessageDialog(null, "El saldo no es viable para completar esta transaccion", "ERROR", 0);
             } else {
-                AgregarDatosB(billete,retiro);
-                ModificarDatosTJ(ListaTarjetas, tarjetas, Integer.toString(sal));
-                ListaTransacciones.add(new Transacciones(Integer.toString(idTransaccion), idUser, "Retiro", retiro, FeYHo.getText()));
-                idTransaccion++;
-                ModificarDatosTran(ListaTransacciones, Transacciones);
+                if(Retiros(retiro)){
+                    ModificarDatosTJ(ListaTarjetas, tarjetas, Integer.toString(sal));
+                    ListaTransacciones.add(new Transacciones(Integer.toString(idTransaccion), idUser, "Retiro", retiro, FeYHo.getText()));
+                    idTransaccion++;
+                    ModificarDatosTran(ListaTransacciones, Transacciones);                    
+                }
             }
         } else {
             JOptionPane.showMessageDialog(null, "No se le permiten más retiros por hoy", "ERROR", 0);
@@ -131,10 +132,10 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
     }
     //METODO PARA RESTAR LOS BILLETES DEL RETIRO
 
-    public void AgregarDatosB(File f, String retiro) {
+    public void AgregarDatosB(File f) {
         String a = "";
         String TipoUser = "";
-        String ret = retiro;
+        ListaBillete.clear();
         try {
             FileReader Fr = new FileReader(f);
             BufferedReader Br = new BufferedReader(Fr);
@@ -186,56 +187,6 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
                 ListaBillete.add(new cajero(Usuarios[0], Usuarios[1], Usuarios[2], Usuarios[3], Usuarios[4], Usuarios[5], Usuarios[6], Usuarios[7], Usuarios[8]));
                 TipoUser = "";
 
-                
-                int b1 = Integer.valueOf(ListaBillete.get(0).getB1());
-                int b2 = Integer.valueOf(ListaBillete.get(0).getB5());
-                int b3 = Integer.valueOf(ListaBillete.get(0).getB10());
-                int b4 = Integer.valueOf(ListaBillete.get(0).getB20());
-                int b5 = Integer.valueOf(ListaBillete.get(0).getB50());
-                int b6 = Integer.valueOf(ListaBillete.get(0).getB100());
-                int b7 = Integer.valueOf(ListaBillete.get(0).getB200());
-                int btt = Integer.valueOf(ListaBillete.get(0).getTotal());
-                int bsl = Integer.valueOf(ListaBillete.get(0).getSaldo());
-                
-                int ax1,ax2,ax3,ax4,ax5,ax6,ax7;
-                ax1=b1; ax2=b2; ax3=b3; ax4=b4; ax5=b5; ax6=b6; ax7=b7;
-                
-                int rt = Integer.valueOf(ret);
-                int disp = Integer.valueOf(ret);
-
-                if(ax7>0){ ax7-=B7(rt); rt-=200*B7(rt);}
-                if(ax6>0){ ax6-=B6(rt); rt-=100*B6(rt);}
-                if(ax5>0){ ax5-=B5(rt); rt-=50*B5(rt);}
-                if(ax4>0){ ax4-=B4(rt); rt-=20*B4(rt);}
-                if(ax3>0){ ax3-=B3(rt); rt-=10*B3(rt);}
-                if(ax2>0){ ax2-=B2(rt); rt-=5*B2(rt);}
-                if(ax1>0){ ax1-=B1(rt); rt-=1*B1(rt);}
-                
-                if(rt!=0) JOptionPane.showMessageDialog(null, "NO HAY SALDO/BILLETES SUFICIENTES PARA EL RETIRO EN EL CAJERO: ");else{
-                    int rts =Integer.valueOf(ret);
-                    if(b7>0){ b7-=B7(rts); rt-=200*B7(rts);}
-                    if(b6>0){ b6-=B6(rts); rt-=100*B6(rts);}
-                    if(b5>0){ b5-=B5(rts); rt-=50*B5(rts);}
-                    if(b4>0){ b4-=B4(rts); rt-=20*B4(rts);}
-                    if(b3>0){ b3-=B3(rts); rt-=10*B3(rts);}
-                    if(b2>0){ b2-=B2(rts); rt-=5*B2(rts);}
-                    if(b1>0){ b1-=B1(rts); rt-=1*B1(rts);}
-                    bsl-=rts;                    
-                }
-                //for(int i=1;i<=7;i++){
-//                    rt=rt%b1;
-//                    System.out.print(rt);
-                //}
-                
-                
-                //LIMPIAR TXT Y DEJAR UNICAMENTE EL SALDO ACTUAN CON EL NUMERO 
-                //ACTUAL DE BILLETES
-                limpiartxt(f);
-                ListaBillete.clear();
-                ListaBillete.add(new cajero(String.valueOf(b1), String.valueOf(b2), String.valueOf(b3), String.valueOf(b4), String.valueOf(b5), String.valueOf(b6), String.valueOf(b7), String.valueOf(btt), String.valueOf(bsl)));
-                JOptionPane.showMessageDialog(null, "BILLETES DISPONIBLES\n"+
-                        "Q1->"+b1+"\n"+"Q5->"+b2+"\n"+"Q10->"+b3+"\n"+"Q20->"+b4+"\n"+"Q50->"+b5+"\n"+"Q100->"+b6+"\n"+"Q200->"+b7+"\n"
-                        + "EL SALDO ACTUAL DEL CAJERO ES DE: " + bsl);
             }
             //ListaBillete.add(GuardarBill());
 
@@ -243,73 +194,138 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "No se Encontro el Archivo", "ERROR", 2);
         }
+    }
+    
+    public boolean Retiros(String ret){
+        boolean retiro = false;
+        int b1 = Integer.valueOf(ListaBillete.get(0).getB1());
+        int b2 = Integer.valueOf(ListaBillete.get(0).getB5());
+        int b3 = Integer.valueOf(ListaBillete.get(0).getB10());
+        int b4 = Integer.valueOf(ListaBillete.get(0).getB20());
+        int b5 = Integer.valueOf(ListaBillete.get(0).getB50());
+        int b6 = Integer.valueOf(ListaBillete.get(0).getB100());
+        int b7 = Integer.valueOf(ListaBillete.get(0).getB200());
+        int btt = Integer.valueOf(ListaBillete.get(0).getTotal());
+        int bsl = Integer.valueOf(ListaBillete.get(0).getSaldo());
+                                
+            int rt = Integer.valueOf(ret);
+        int rts =Integer.valueOf(ret);
+        if(b7>=B7(rts,0)){ b7-=B7(rts,0); rts-=200*B7(rts,0);}
+        if(b6>=B6(rts,0)){ b6-=B6(rts,0); rts-=100*B6(rts,0);}
+        if(b5>=B5(rts,0)){ b5-=B5(rts,0); rts-=50*B5(rts,0);}
+        if(b4>=B4(rts,0)){ b4-=B4(rts,0); rts-=20*B4(rts,0);}
+        if(b3>=B3(rts,0)){ b3-=B3(rts,0); rts-=10*B3(rts,0);}
+        if(b2>=B2(rts,0)){ b2-=B2(rts,0); rts-=5*B2(rts,0);}
+        if(b1>=B1(rts,0)){ b1-=B1(rts,0); rts-=1*B1(rts,0);}
+        bsl-=rts;
 
+        if(rts==0){ 
+            RealizarR(ret);
+            retiro = true;
+        }else{
+            JOptionPane.showMessageDialog(null, "NO HAY SALDO/BILLETES SUFICIENTES PARA EL RETIRO EN EL CAJERO: ");
+            JOptionPane.showMessageDialog(null, "BILLETES DISPONIBLES\n"+
+                "Q1 "+b1+"\n"+"Q5 "+b2+"\n"+"Q10 "+b3+"\n"+"Q20 "+b4+"\n"+"Q50 "+b5+"\n"+"Q100 "+b6+"\n"+"Q200 "+b7+"\n"
+                + "EL SALDO ACTUAL DEL CAJERO ES DE: " + bsl);
+            retiro = false;
+        }
+        return retiro;
+    } 
+    
+    public void RealizarR(String ret){
+        int b1 = Integer.valueOf(ListaBillete.get(0).getB1());
+        int b2 = Integer.valueOf(ListaBillete.get(0).getB5());
+        int b3 = Integer.valueOf(ListaBillete.get(0).getB10());
+        int b4 = Integer.valueOf(ListaBillete.get(0).getB20());
+        int b5 = Integer.valueOf(ListaBillete.get(0).getB50());
+        int b6 = Integer.valueOf(ListaBillete.get(0).getB100());
+        int b7 = Integer.valueOf(ListaBillete.get(0).getB200());
+        int btt = Integer.valueOf(ListaBillete.get(0).getTotal());
+        int bsl = Integer.valueOf(ListaBillete.get(0).getSaldo());
+
+        int rt = Integer.valueOf(ret);
+        int rts =Integer.valueOf(ret);
+        int a1=0,a2=0,a3=0,a4=0,a5=0,a6=0,a7=0;
+        if(b7>=B7(rts,0)){ b7-=B7(rts,0); a7=B7(rts,0); rts-=200*B7(rts,0); }
+        if(b6>=B6(rts,0)){ b6-=B6(rts,0); a6=B6(rts,0); rts-=100*B6(rts,0); }
+        if(b5>=B5(rts,0)){ b5-=B5(rts,0); a5=B5(rts,0); rts-=50*B5(rts,0); }
+        if(b4>=B4(rts,0)){ b4-=B4(rts,0); a4=B4(rts,0); rts-=20*B4(rts,0);}
+        if(b3>=B3(rts,0)){ b3-=B3(rts,0); a3=B3(rts,0); rts-=10*B3(rts,0);}
+        if(b2>=B2(rts,0)){ b2-=B2(rts,0); a2=B2(rts,0); rts-=5*B2(rts,0);}
+        if(b1>=B1(rts,0)){ b1-=B1(rts,0); a1=B1(rts,0); rts-=1*B1(rts,0);}
+        bsl-=rts;
+
+        JOptionPane.showMessageDialog(null, "BILLETES RETIRADOS\n"+
+        "Q1 "+a1+"\n"+"Q5 "+a2+"\n"+"Q10 "+a3+"\n"+"Q20 "+a4+"\n"+"Q50 "+a5+"\n"+"Q100 "+a6+"\n"+"Q200 "+a7+"\n"
+        + "EL TOTAL RETIRADO ES DE: " + rt);
+
+        //LIMPIAR TXT Y DEJAR UNICAMENTE EL SALDO ACTUAN CON EL NUMERO 
+        //ACTUAL DE BILLETES
+        //limpiartxt(f);
+        ListaBillete.clear();
+        ListaBillete.add(new cajero(String.valueOf(b1), String.valueOf(b2), String.valueOf(b3), String.valueOf(b4), String.valueOf(b5), String.valueOf(b6), String.valueOf(b7), String.valueOf(btt), String.valueOf(bsl)));
+                JOptionPane.showMessageDialog(null, "BILLETES DISPONIBLES\n"+
+                        "Q1 "+b1+"\n"+"Q5 "+b2+"\n"+"Q10 "+b3+"\n"+"Q20 "+b4+"\n"+"Q50 "+b5+"\n"+"Q100 "+b6+"\n"+"Q200 "+b7+"\n"
+                        + "EL SALDO ACTUAL DEL CAJERO ES DE: " + bsl);
         ModificarDatosB(ListaBillete, billete);
 
     }
     
-    public int B7(int retiro){
-        int cantidad =0;
+    public int B7(int retiro,int cantidad){
         if(retiro>=200){
             retiro-=200;
             cantidad++;
-            B7(retiro);
+            return B7(retiro, cantidad);
         }
         return cantidad;
     }
     
-    public int B6(int retiro){
-        int cantidad =0;
+    public int B6(int retiro,int cantidad){
         if(retiro>=100){
             retiro-=100;
             cantidad++;
-            B7(retiro);
+            return B6(retiro, cantidad);
         }
         return cantidad;
     }
     
-    public int B5(int retiro){
-        int cantidad =0;
+    public int B5(int retiro, int cantidad){
         if(retiro>=50){
             retiro-=50;
             cantidad++;
-            B7(retiro);
+            return B5(retiro, cantidad);
         }
         return cantidad;
     }
-    public int B4(int retiro){
-        int cantidad =0;
+    public int B4(int retiro,int cantidad){
         if(retiro>=20){
             retiro-=20;
             cantidad++;
-            B7(retiro);
+            return B4(retiro, cantidad);
         }
         return cantidad;
     }
-    public int B3(int retiro){
-        int cantidad =0;
+    public int B3(int retiro, int cantidad){
         if(retiro>=10){
             retiro-=10;
             cantidad++;
-            B7(retiro);
+            return B3(retiro, cantidad);
         }
         return cantidad;
     }
-    public int B2(int retiro){
-        int cantidad =0;
+    public int B2(int retiro, int cantidad){
         if(retiro>=5){
             retiro-=5;
             cantidad++;
-            B7(retiro);
+            return B2(retiro, cantidad);
         }
         return cantidad;
     }
-    public int B1(int retiro){
-        int cantidad =0;
+    public int B1(int retiro, int cantidad){
         if(retiro>=1){
             retiro-=1;
             cantidad++;
-            B7(retiro);
+            return B1(retiro, cantidad);
         }
         return cantidad;
     }
@@ -398,6 +414,35 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
                 + "• Monto máximo de retiro diario disponible  Q. " + RetiroDisp + "\n"
                 + "• Saldo Actual   Q. " + Sal + "\n"
                 + "• Total Retirado hoy  Q. " + limiteDiario());
+    }
+    
+    public void Denominaciones(String ret) {
+       
+        int b1 = Integer.valueOf(ListaBillete.get(0).getB1());
+        int b2 = Integer.valueOf(ListaBillete.get(0).getB5());
+        int b3 = Integer.valueOf(ListaBillete.get(0).getB10());
+        int b4 = Integer.valueOf(ListaBillete.get(0).getB20());
+        int b5 = Integer.valueOf(ListaBillete.get(0).getB50());
+        int b6 = Integer.valueOf(ListaBillete.get(0).getB100());
+        int b7 = Integer.valueOf(ListaBillete.get(0).getB200());
+        int btt = Integer.valueOf(ListaBillete.get(0).getTotal());
+        int bsl = Integer.valueOf(ListaBillete.get(0).getSaldo());
+
+        int rt = Integer.valueOf(ret);
+        int rts =Integer.valueOf(ret);
+        int a1=0,a2=0,a3=0,a4=0,a5=0,a6=0,a7=0;
+        if(b7>=B7(rts,0)){ b7-=B7(rts,0); a7=B7(rts,0); rts-=200*B7(rts,0); }
+        if(b6>=B6(rts,0)){ b6-=B6(rts,0); a6=B6(rts,0); rts-=100*B6(rts,0); }
+        if(b5>=B5(rts,0)){ b5-=B5(rts,0); a5=B5(rts,0); rts-=50*B5(rts,0); }
+        if(b4>=B4(rts,0)){ b4-=B4(rts,0); a4=B4(rts,0); rts-=20*B4(rts,0);}
+        if(b3>=B3(rts,0)){ b3-=B3(rts,0); a3=B3(rts,0); rts-=10*B3(rts,0);}
+        if(b2>=B2(rts,0)){ b2-=B2(rts,0); a2=B2(rts,0); rts-=5*B2(rts,0);}
+        if(b1>=B1(rts,0)){ b1-=B1(rts,0); a1=B1(rts,0); rts-=1*B1(rts,0);}
+        
+        JOptionPane.showMessageDialog(null, "BILLETES DISPONIBLES\n"+
+                "Q1 "+b1+"\n"+"Q5 "+b2+"\n"+"Q10 "+b3+"\n"+"Q20 "+b4+"\n"+"Q50 "+b5+"\n"+"Q100 "+b6+"\n"+"Q200 "+b7+"\n"
+                + "EL SALDO ACTUAL DEL CAJERO ES DE: " + bsl);
+        ModificarDatosB(ListaBillete, billete);
     }
 
     public String limiteDiario() {
@@ -686,10 +731,11 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
 
         jbCambPin = new javax.swing.JButton();
         jbRetiro = new javax.swing.JButton();
-        jbSaldo = new javax.swing.JButton();
+        jbbill = new javax.swing.JButton();
         jbUltTrans = new javax.swing.JButton();
         jbDeposito = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jbSaldo1 = new javax.swing.JButton();
 
         setVisible(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -716,21 +762,21 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
         });
         getContentPane().add(jbRetiro, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 150, 86));
 
-        jbSaldo.setBackground(new java.awt.Color(0, 153, 153));
-        jbSaldo.setFont(new java.awt.Font("Castellar", 1, 14)); // NOI18N
-        jbSaldo.setForeground(new java.awt.Color(255, 255, 255));
-        jbSaldo.setText("SALDO");
-        jbSaldo.addActionListener(new java.awt.event.ActionListener() {
+        jbbill.setBackground(new java.awt.Color(0, 153, 153));
+        jbbill.setFont(new java.awt.Font("Castellar", 1, 14)); // NOI18N
+        jbbill.setForeground(new java.awt.Color(255, 255, 255));
+        jbbill.setText("Denominaciones Disponibles");
+        jbbill.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbSaldoActionPerformed(evt);
+                jbbillActionPerformed(evt);
             }
         });
-        getContentPane().add(jbSaldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 160, 150, 86));
+        getContentPane().add(jbbill, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 390, 240, 20));
 
         jbUltTrans.setBackground(new java.awt.Color(0, 153, 153));
         jbUltTrans.setFont(new java.awt.Font("Castellar", 1, 14)); // NOI18N
         jbUltTrans.setForeground(new java.awt.Color(255, 255, 255));
-        jbUltTrans.setText("ultimas 5 tranSACCIONES");
+        jbUltTrans.setText("Ultimas 5 Transacciones");
         jbUltTrans.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbUltTransActionPerformed(evt);
@@ -759,11 +805,23 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
         });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 380, -1, -1));
 
+        jbSaldo1.setBackground(new java.awt.Color(0, 153, 153));
+        jbSaldo1.setFont(new java.awt.Font("Castellar", 1, 14)); // NOI18N
+        jbSaldo1.setForeground(new java.awt.Color(255, 255, 255));
+        jbSaldo1.setText("Saldos");
+        jbSaldo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSaldo1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jbSaldo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 160, 150, 86));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbRetiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRetiroActionPerformed
         // TODO add your handling code here:
+        AgregarDatosTJ(tarjetas);
         retiro();
     }//GEN-LAST:event_jbRetiroActionPerformed
 
@@ -772,7 +830,7 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
         this.setVisible(false);
         //jtlimite.setText(ListaTarjetas.get(Integer.valueOf(idUser)).getLRetiro());
         depcli.setVisible(true);
-        deposito();
+        //deposito();
     }//GEN-LAST:event_jbDepositoActionPerformed
 
     private void jbCambPinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCambPinActionPerformed
@@ -780,11 +838,12 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
         cambpin();
     }//GEN-LAST:event_jbCambPinActionPerformed
 
-    private void jbSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSaldoActionPerformed
+    private void jbbillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbbillActionPerformed
         // TODO add your handling code here:
-        //this.ListaTarjetas = AgregarDatosTJs(ListaTarjetas, tarjetas);
-        saldos();
-    }//GEN-LAST:event_jbSaldoActionPerformed
+        AgregarDatosB(billete);
+        AgregarDatosTJ(tarjetas);
+        Denominaciones("0");
+    }//GEN-LAST:event_jbbillActionPerformed
 
     ArrayList<Transacciones> ListaTran;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -801,6 +860,12 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
         tabla();
         tabtran.setVisible(true);
     }//GEN-LAST:event_jbUltTransActionPerformed
+
+    private void jbSaldo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSaldo1ActionPerformed
+        // TODO add your handling code here:
+        AgregarDatosTJ(tarjetas);
+        saldos();
+    }//GEN-LAST:event_jbSaldo1ActionPerformed
     public void setRootPaneCheckingEnabled(boolean enabled) {
         super.setRootPaneCheckingEnabled(enabled);
     }
@@ -818,7 +883,8 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbCambPin;
     private javax.swing.JButton jbDeposito;
     private javax.swing.JButton jbRetiro;
-    private javax.swing.JButton jbSaldo;
+    private javax.swing.JButton jbSaldo1;
     private javax.swing.JButton jbUltTrans;
+    private javax.swing.JButton jbbill;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,6 +5,7 @@
  */
 package Interfaz;
 
+import static Interfaz.Login.idUser;
 import clases.TarjetaU;
 import clases.Transacciones;
 import clases.usuarios;
@@ -248,6 +249,36 @@ public class Main extends javax.swing.JFrame {
         }
         return ListaTarjetas;
     }
+    
+        //metodo para modificar saldos de la tarjeta
+    public static void ModificarDatosTJs(ArrayList<TarjetaU> t, File f, String saldo, String idU) {
+        int pos = Integer.valueOf(t.get(Integer.valueOf(idU)).getIdTarjeta());
+
+//        int eg = Integer.valueOf(t.get(pos).getEgresos())+Integer.valueOf(egreso);
+//        t.get(pos).setEgresos(Integer.toString(eg));
+        t.get(pos).setSaldo(saldo);
+        String dato = "";
+        for (int i = 0; i < t.size(); i++) {
+            dato += t.get(i).getIdTarjeta() + "\t"
+                    + t.get(i).getNumTarjeta() + "\t"
+                    + t.get(i).getMInicial() + "\t"
+                    + t.get(i).getLRetiro() + "\t"
+                    + t.get(i).getIngresos() + "\t"
+                    + t.get(i).getEgresos() + "\t"
+                    + t.get(i).getSaldo() + "\n";
+        }
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+            bw.write("");
+            try ( FileWriter FlWr = new FileWriter(f, true)) {
+                FlWr.write(dato);
+            }
+        } catch (IOException e) {
+            System.out.println("Error");
+        }
+
+    }
+    
     public static String autoId(File f){
         String a = "";
         String contenido = "";
