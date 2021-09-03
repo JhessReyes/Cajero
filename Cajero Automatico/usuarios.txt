@@ -4,4 +4,4 @@
 3	jhonatan	reyes	1919	8888	admin
 4	Jhonatan	Riv	1616	4444	usuario
 5	Pedro	Sanchez	pSanchez	2323	admin
-6	Carlos	Pop	1122	1233312333123334	usuario
+6	Carlos	Pop	1234	1233312333123334	usuario

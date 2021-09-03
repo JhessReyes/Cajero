@@ -217,7 +217,7 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
         if(b3>=B3(rts,0)){ b3-=B3(rts,0); rts-=10*B3(rts,0);}
         if(b2>=B2(rts,0)){ b2-=B2(rts,0); rts-=5*B2(rts,0);}
         if(b1>=B1(rts,0)){ b1-=B1(rts,0); rts-=1*B1(rts,0);}
-        bsl-=rts;
+        //bsl-=rts;
 
         if(rts==0){ 
             RealizarR(ret);
@@ -253,7 +253,7 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
         if(b3>=B3(rts,0)){ b3-=B3(rts,0); a3=B3(rts,0); rts-=10*B3(rts,0);}
         if(b2>=B2(rts,0)){ b2-=B2(rts,0); a2=B2(rts,0); rts-=5*B2(rts,0);}
         if(b1>=B1(rts,0)){ b1-=B1(rts,0); a1=B1(rts,0); rts-=1*B1(rts,0);}
-        bsl-=rts;
+        bsl-=rt;
 
         JOptionPane.showMessageDialog(null, "BILLETES RETIRADOS\n"+
         "Q1 "+a1+"\n"+"Q5 "+a2+"\n"+"Q10 "+a3+"\n"+"Q20 "+a4+"\n"+"Q50 "+a5+"\n"+"Q100 "+a6+"\n"+"Q200 "+a7+"\n"
@@ -771,7 +771,7 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
                 jbbillActionPerformed(evt);
             }
         });
-        getContentPane().add(jbbill, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 390, 240, 20));
+        getContentPane().add(jbbill, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 380, 320, -1));
 
         jbUltTrans.setBackground(new java.awt.Color(0, 153, 153));
         jbUltTrans.setFont(new java.awt.Font("Castellar", 1, 14)); // NOI18N
