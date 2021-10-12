@@ -9,6 +9,8 @@ package Interfaz;
 import static Interfaz.Login.idUser;
 import static Interfaz.Main.ModificarDatosTrans;
 import static Interfaz.Main.AgregarDatosTrans;
+import static Interfaz.Main.Conexion;
+import static Interfaz.Main.Registro_Dep_Ret;
 import static Interfaz.Main.autoId;
 import static Interfaz.Main.depcli;
 import static Interfaz.Main.init;
@@ -26,6 +28,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -130,6 +134,68 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
         }
 
     }
+    public void BilletesCajero(){
+        PreparedStatement Declaracion;
+        ResultSet result;
+        String Retiro;
+        Retiro = JOptionPane.showInputDialog(null, "CUANTO DESEA RETIRAR", "RETIRO", 3);
+        try{
+            Declaracion= Conexion.prepareStatement("SELECT * FROM LOTE_BILLETES WHERE ID_LOTE = 1");
+            result = Declaracion.executeQuery();
+            while(result.next()){
+                //System.out.println(result.getString("ID_LOTE"));
+                //AgregarSaldoCuenta();
+                int b1=result.getInt("Q1");
+                int b2=result.getInt("Q5");
+                int b3=result.getInt("Q10");
+                int b4=result.getInt("Q20");
+                int b5=result.getInt("Q50");
+                int b6=result.getInt("Q100");
+                int b7=result.getInt("Q200");
+                int rts =Integer.valueOf(Retiro);
+                if(b7>=B7(rts,0)){ b7-=B7(rts,0); rts-=200*B7(rts,0);}
+                if(b6>=B6(rts,0)){ b6-=B6(rts,0); rts-=100*B6(rts,0);}
+                if(b5>=B5(rts,0)){ b5-=B5(rts,0); rts-=50*B5(rts,0);}
+                if(b4>=B4(rts,0)){ b4-=B4(rts,0); rts-=20*B4(rts,0);}
+                if(b3>=B3(rts,0)){ b3-=B3(rts,0); rts-=10*B3(rts,0);}
+                if(b2>=B2(rts,0)){ b2-=B2(rts,0); rts-=5*B2(rts,0);}
+                if(b1>=B1(rts,0)){ b1-=B1(rts,0); rts-=1*B1(rts,0);}
+                //bsl-=rts;
+
+                if(rts==0){ 
+                    Retirar(b1,b2,b3,b4,b5,b6,b7);
+                }else{
+                    JOptionPane.showMessageDialog(null, "NO HAY SALDO/BILLETES SUFICIENTES PARA EL RETIRO EN EL CAJERO: ");
+                }
+                //Registro_Dep_Ret(FeYHo.getText(),idUser,"2",result.getString("ID_LOTE"));
+                
+            }
+            
+        }catch (Exception e){System.out.println(e);}
+    }
+    public void Retirar(int Q1, int Q5, int Q10, int Q20, int Q50, int Q100, int Q200){
+        PreparedStatement Declaracion;
+        ResultSet result;
+        try{
+            Declaracion= Conexion.prepareStatement("EXEC INSERTAR_LOTE ?,?,?,?,?,?,?");
+            Declaracion.setInt(1,Q1);
+            Declaracion.setInt(2,Q5);
+            Declaracion.setInt(3,Q10);
+            Declaracion.setInt(4,Q20);
+            Declaracion.setInt(5,Q50);
+            Declaracion.setInt(6,Q100);
+            Declaracion.setInt(7,Q200);
+            result = Declaracion.executeQuery();
+            while(result.next()){
+                System.out.println(result.getString("ID_LOTE"));
+                //AgregarSaldoCuenta();
+                Registro_Dep_Ret(FeYHo.getText(),idUser,"1",result.getString("ID_LOTE"));
+                
+            }
+            System.out.println("Ejecutado");
+            //Conexion.close();
+        }catch(Exception e) {System.out.println(e);}
+    }
     //METODO PARA RESTAR LOS BILLETES DEL RETIRO
 
     public void AgregarDatosB(File f) {
@@ -208,7 +274,7 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
         int btt = Integer.valueOf(ListaBillete.get(0).getTotal());
         int bsl = Integer.valueOf(ListaBillete.get(0).getSaldo());
                                 
-        int rt = Integer.valueOf(ret);
+       // int rt = Integer.valueOf(ret);
         int rts =Integer.valueOf(ret);
         if(b7>=B7(rts,0)){ b7-=B7(rts,0); rts-=200*B7(rts,0);}
         if(b6>=B6(rts,0)){ b6-=B6(rts,0); rts-=100*B6(rts,0);}
@@ -256,7 +322,7 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
         JOptionPane.showMessageDialog(null, "BILLETES RETIRADOS\n"+
         "Q1 "+a1+"\n"+"Q5 "+a2+"\n"+"Q10 "+a3+"\n"+"Q20 "+a4+"\n"+"Q50 "+a5+"\n"+"Q100 "+a6+"\n"+"Q200 "+a7+"\n"
         + "EL TOTAL RETIRADO ES DE: " + rt);
-
+        //Retirar(a1,a2,a3,a4,a5,a6,a7);
         //LIMPIAR TXT Y DEJAR UNICAMENTE EL SALDO ACTUAN CON EL NUMERO 
         //ACTUAL DE BILLETES
         //limpiartxt(f);
@@ -401,6 +467,30 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
 // 
 //                }else JOptionPane.showMessageDialog(null,"Sus datos no coinciden", "ERROR", 0);
 //            }
+    }
+    
+    public void CambiarPin(){
+        PreparedStatement Declaracion;
+        PreparedStatement pin;
+        ResultSet resultado;
+        String nuevopin;
+        nuevopin = JOptionPane.showInputDialog(null, "Ingrese su nuevo pin", "NUEVO PIN", 3);
+
+        try{
+            pin = Conexion.prepareStatement("Execute OBTENER_PIN ?");
+            pin.setString(1, idUser);
+            resultado = pin.executeQuery();
+            while(resultado.next()){
+                if (nuevopin.length() != 4) {
+                    nuevopin = "";
+                    JOptionPane.showMessageDialog(null, "Ingrese un PIN de 4 caracteres");
+                }
+                Declaracion= Conexion.prepareStatement("Execute CAMBIAR_PIN ?,?");
+                Declaracion.setString(1,idUser);
+                Declaracion.setString(2,nuevopin.isBlank()==false? nuevopin:resultado.getString("PIN"));
+                Declaracion.executeQuery();            
+            }
+        }catch(Exception e) {System.out.println(e);}
     }
 
     //metodo para mostrar saldos disponibles
@@ -717,6 +807,18 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "No se Encontro el Archivo", "ERROR", 2);
         }
     }
+    
+    public void RegistroSalida(){
+        PreparedStatement Declaracion;
+        try{
+            Declaracion= Conexion.prepareStatement("INSERT INTO Salida_Sistema VALUES(?, ?)");
+            Declaracion.setString(1,idUser);
+            Declaracion.setString(2,FeYHo.getText());
+            Declaracion.executeUpdate();
+            //System.out.println("Ejecutado");
+            //Conexion.close();
+        }catch(Exception e) {System.out.println(e);}
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -820,7 +922,8 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
     private void jbRetiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRetiroActionPerformed
         // TODO add your handling code here:
         AgregarDatosTJ(tarjetas);
-        retiro();
+        //retiro();
+        BilletesCajero();
     }//GEN-LAST:event_jbRetiroActionPerformed
 
     private void jbDepositoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDepositoActionPerformed
@@ -833,7 +936,9 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
 
     private void jbCambPinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCambPinActionPerformed
         // TODO add your handling code here:
-        cambpin();
+        CambiarPin();        
+
+//cambpin();
     }//GEN-LAST:event_jbCambPinActionPerformed
 
     private void jbbillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbbillActionPerformed
@@ -847,8 +952,10 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         this.ListaTran = AgregarDatosTrans(ListaTran, Transacciones);
-        ListaTran.add(new Transacciones(autoId(Transacciones), idUser, "Login", "0", FeYHo.getText()));
-        ModificarDatosTrans(ListaTran, Transacciones);
+        
+        RegistroSalida();
+//        ListaTran.add(new Transacciones(autoId(Transacciones), idUser, "Login", "0", FeYHo.getText()));
+//        ModificarDatosTrans(ListaTran, Transacciones);
         this.setVisible(false);
         init.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed

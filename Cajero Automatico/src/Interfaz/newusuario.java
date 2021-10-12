@@ -5,7 +5,10 @@
  */
 package Interfaz;
 
+import static Interfaz.Login.idUser;
+import static Interfaz.Main.Conexion;
 import static Interfaz.Main.gest;
+import static Interfaz.Time.FeYHo;
 import clases.Ingreso;
 import clases.TarjetaU;
 import clases.TarjetaUsuario;
@@ -17,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -274,7 +278,7 @@ public class newusuario extends javax.swing.JInternalFrame {
 
         if (pin.length() == 4) {
             if (numtj.length() == 16) {
-                if (tpusuario.equals("admin") || tpusuario.equals("usuario")) {
+                if (tpusuario.equals("1") || tpusuario.equals("2")) {
                     JOptionPane.showMessageDialog(null, "CONFIGURACION ACEPTADA, PUEDE GUARDAR");
                     this.jButton1.setVisible(true);
                 } else {
@@ -287,6 +291,23 @@ public class newusuario extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "EL PIN NO TIENE EL NO. CORRECTO DE CARACTERES");
         }
 
+    }
+    
+        public void Nueva_Cuenta(){
+        PreparedStatement Declaracion;
+        try{
+            Declaracion= Conexion.prepareStatement("INSERT INTO Cuentas VALUES(?, ?, ?, ?, ?, ?, ?)");
+            Declaracion.setString(1,jtnombre.getText().trim());
+            Declaracion.setString(2,jtapellido.getText().trim());
+            Declaracion.setString(3,jtipous.getText().trim());
+            Declaracion.setString(4,jtntarjeta.getText().trim());
+            Declaracion.setString(5,jtpass.getText().trim());
+            Declaracion.setString(6,jtlimret.getText().trim());
+            Declaracion.setString(7,jtsaldoi.getText().trim());
+            Declaracion.executeUpdate();
+            System.out.println("Ejecutado");
+            //Conexion.close();
+        }catch(Exception e) {System.out.println(e);}
     }
 
     /**
@@ -574,7 +595,7 @@ public class newusuario extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         //guardar datos Txt
-
+        Nueva_Cuenta();
         AgregarDatosU(user);
         AgregarDatosTJ(tarjeta);
         limpiar();

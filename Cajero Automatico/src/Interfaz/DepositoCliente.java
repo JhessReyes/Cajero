@@ -10,8 +10,10 @@ import static Interfaz.GestionesClientes.saldoU;
 import static Interfaz.Login.idUser;
 import static Interfaz.Main.AgregarDatosTJs;
 import static Interfaz.Main.AgregarDatosTrans;
+import static Interfaz.Main.Conexion;
 import static Interfaz.Main.ModificarDatosTJs;
 import static Interfaz.Main.ModificarDatosTrans;
+import static Interfaz.Main.Registro_Dep_Ret;
 import static Interfaz.Main.autoId;
 import static Interfaz.Main.gcli;
 import static Interfaz.Main.gest;
@@ -25,6 +27,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.logging.Level;
@@ -271,6 +275,51 @@ public class DepositoCliente extends javax.swing.JInternalFrame {
         idTransaccion++;
         ModificarDatosTrans(ListaTransacciones, tr);
     }
+        
+        public void Depositar(){
+        PreparedStatement Declaracion;
+        ResultSet result;
+        PreparedStatement SaldoUsuario;
+        try{
+            Declaracion= Conexion.prepareStatement("EXEC INSERTAR_LOTE ?,?,?,?,?,?,?");
+            Declaracion.setString(1,jtbilletes1.getText().trim());
+            Declaracion.setString(2,jtbilletes2.getText().trim());
+            Declaracion.setString(3,jtbilletes3.getText().trim());
+            Declaracion.setString(4,jtbilletes4.getText().trim());
+            Declaracion.setString(5,jtbilletes5.getText().trim());
+            Declaracion.setString(6,jtbilletes6.getText().trim());
+            Declaracion.setString(7,jtbilletes7.getText().trim());
+            result = Declaracion.executeQuery();
+            while(result.next()){
+                System.out.println(result.getString("ID_LOTE"));
+                //AgregarSaldoCuenta();
+                Registro_Dep_Ret(FeYHo.getText(),idUser,"2",result.getString("ID_LOTE"));
+                
+            }
+            System.out.println("Ejecutado");
+            //Conexion.close();
+        }catch(Exception e) {System.out.println(e);}
+        }
+        
+        public void AgregarSaldoCuenta(){
+        PreparedStatement AgregarSaldo;
+        PreparedStatement saldoUsuario;
+        ResultSet resultado;
+
+        try{
+            saldoUsuario = Conexion.prepareStatement("Execute OBTENER_SALDO ?");
+            saldoUsuario.setString(1, idUser);
+            resultado = saldoUsuario.executeQuery();
+            while(resultado.next()){
+                int sal = Integer.valueOf(jtsuma.getText()) + Integer.valueOf(resultado.getString("SALDO"));
+                AgregarSaldo= Conexion.prepareStatement("Execute AGREGAR_SALDO_CUENTA ?,?");
+                AgregarSaldo.setString(1,idUser);
+                AgregarSaldo.setString(2,Integer.toString(sal));
+                AgregarSaldo.executeQuery();            
+            }
+        }catch(Exception e) {System.out.println(e);}
+                    
+        }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -535,6 +584,7 @@ public class DepositoCliente extends javax.swing.JInternalFrame {
         ListaBillete = new ArrayList<>();
         db = new ArrayList();
         limitecajero();
+        Depositar();
         deposito(jtsuma.getText());
         //this.jbguardar.setVisible(true);
         AgregarDatosB(billete);

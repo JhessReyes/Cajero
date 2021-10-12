@@ -7,6 +7,9 @@ package Interfaz;
 
 import AssetsLogin.TextPrompt;
 import static Interfaz.Main.AgregarDatosTrans;
+
+import static Interfaz.Main.Conexion;
+
 import static Interfaz.Main.ModificarDatosTrans;
 import static Interfaz.Main.autoId;
 import static Interfaz.Main.gcli;
@@ -17,6 +20,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -141,29 +146,68 @@ public class Login extends javax.swing.JFrame {
             if (Listausuarios.get(i).getNumTarjeta().equals(tarjeta)) {
                 if (Listausuarios.get(i).getPassword().equals(contraseña)) {
                     //JOptionPane.showMessageDialog(null, "BIENVENIDO");
-                    tiposusuarios(i);
+                   // tiposusuarios(i);
                 }
             }
         }
 
     }
+    
+    public void Autenticacion(){
+        String tarjeta = "", contraseña = "";
+        for (int i = 0; i < jpassword.getPassword().length; i++) {
+            contraseña += jpassword.getPassword()[i];
+        }
+        tarjeta = txtarjeta.getText().trim();
+        PreparedStatement Declaracion;
+        ResultSet resultado = null;
+        
+        try{
+            Declaracion= Conexion.prepareStatement("Select ID_CUENTA, TIPO_CUENTA  FROM Cuentas, Tipo_Cuenta WHERE NUM_TARJETA=? AND PIN=? "
+                    + "AND cuentas.ID_TIPO_CUENTA = Tipo_Cuenta.ID_TIPO_CUENTA");
+            Declaracion.setString(1,tarjeta);
+            Declaracion.setString(2,contraseña);
+            resultado= Declaracion.executeQuery();
+            while(resultado.next()){
+                  tiposusuarios(resultado.getInt("ID_CUENTA"),resultado.getString("TIPO_CUENTA"));
+            }
+           // Conexion.close();
+        }catch(Exception e) {System.out.println(e);}
+    }
+    
 //    ArrayList<Transacciones> ListaTran;
 //    File t = new File("transacciones.txt");
-    public void tiposusuarios(int i) {
-        if (Listausuarios.get(i).getTipoUsuario().equals("admin")) {
+    public void tiposusuarios(int i, String s) {
+        if (s.equals("Administrador")) {
             //JOptionPane.showMessageDialog(null, "BIENVENIDO ADMIN");
              this.setVisible(false);
              init.setVisible(false);
              gest.setVisible(true);
-        }else if (Listausuarios.get(i).getTipoUsuario().equals("usuario")) {
-            JOptionPane.showMessageDialog(null, "BIENVENIDO " + Listausuarios.get(i).getNombre().toUpperCase());
+             this.idUser = Integer.toString(i);
+        }else if (s.equals("Usuario")) {
+            JOptionPane.showMessageDialog(null, "BIENVENIDO ");
 //            ListaTran.add(new Transacciones(autoId(t),Integer.toString(i),"Login","0",fecha,hora));
 //            ModificarDatosTran(ListaTran,t);
-            this.idUser = Listausuarios.get(i).getIdUsuario();
+            this.idUser = Integer.toString(i);
             this.setVisible(false);
             init.setVisible(false);
             gcli.setVisible(true);
         }
+
+//        if (Listausuarios.get(i).getTipoUsuario().equals("admin")) {
+//            //JOptionPane.showMessageDialog(null, "BIENVENIDO ADMIN");
+//             this.setVisible(false);
+//             init.setVisible(false);
+//             gest.setVisible(true);
+//        }else if (Listausuarios.get(i).getTipoUsuario().equals("usuario")) {
+//            JOptionPane.showMessageDialog(null, "BIENVENIDO " + Listausuarios.get(i).getNombre().toUpperCase());
+////            ListaTran.add(new Transacciones(autoId(t),Integer.toString(i),"Login","0",fecha,hora));
+////            ModificarDatosTran(ListaTran,t);
+//            this.idUser = Listausuarios.get(i).getIdUsuario();
+//            this.setVisible(false);
+//            init.setVisible(false);
+//            gcli.setVisible(true);
+//        }
 }
     
 
@@ -258,7 +302,8 @@ public class Login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //this.ListaTran = AgregarDatosTrans(ListaTran,t);
-        iniciosecion();
+        //iniciosecion();
+        Autenticacion();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

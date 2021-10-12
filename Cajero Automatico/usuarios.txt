@@ -1,7 +1,11 @@
-0	admin1	ad	0000	admin	admin
+0	admin	ad	0000	admin	admin
 1	usuario	us	1111	1234	usuario
 2	sergio	santos	1010	1414	admin
 3	jhonatan	reyes	1919	8888	admin
 4	Jhonatan	Riv	1616	4444	usuario
 5	Pedro	Sanchez	pSanchez	2323	admin
 6	Carlos	Pop	1234	1233312333123334	usuario
+7	JUAN LUIS	PEREZ LOPEZ	2222	3333333333333333	2
+8	Luis	Miguel	1234	4444444444444444	1
+9	Luis	Miguel	1234	5555555555555555	1
+10	PEDRO	FERNANDEZ	3333	3333333333333333	2

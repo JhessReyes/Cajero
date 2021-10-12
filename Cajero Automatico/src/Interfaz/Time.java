@@ -44,7 +44,7 @@ public class Time extends javax.swing.JInternalFrame {
     
     private void Refreshtime(){
         Date d = new Date();
-        SimpleDateFormat fechf = new SimpleDateFormat("dd/MM/yyyy - ");
+        SimpleDateFormat fechf = new SimpleDateFormat("yyyy-MM-dd ");
 
         FeYHo.setText(fechf.format(d)+(hrs<=9?"0":"")+hrs+":"+(min<=9?"0":"")+min+":"+(sec<=9?"0":"")+sec);
     }

@@ -6,6 +6,7 @@
 package Interfaz;
 
 import static Interfaz.Login.idUser;
+import static Interfaz.Time.FeYHo;
 import clases.TarjetaU;
 import clases.Transacciones;
 import clases.usuarios;
@@ -17,6 +18,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,13 +49,17 @@ public class Main extends javax.swing.JFrame {
     static ControlUsuarios ctrlu = new ControlUsuarios();
     static ConsultaUsuario conus = new ConsultaUsuario();
     static DepositoCliente depcli = new DepositoCliente();
+    private static String Url = "jdbc:sqlserver://localhost:1433;databaseName=Cajero;";
+    private static String BDUser = "Admin";
+    private static String BDPass = "0000";
+    static Connection Conexion = null;
     
     /**
      * Creates new form Main
      */
         
     public Main() {
-       
+        ConnectBD();
         initComponents();
         BarraAdmin();
         this.setLocationRelativeTo(this);
@@ -81,6 +90,14 @@ public class Main extends javax.swing.JFrame {
 
 
     }
+    
+    public void ConnectBD(){
+    try{
+        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        Conexion = (Connection)DriverManager.getConnection(Url, BDUser, BDPass);
+        JOptionPane.showMessageDialog(null, "Conectado");     
+        }catch (Exception e){ System.out.println(e + "No conectado");}
+    }
         public static void RemoveDatos(JTable tb, DefaultTableModel db){
      int fil = tb.getRowCount();
         if(fil>=0){
@@ -88,6 +105,26 @@ public class Main extends javax.swing.JFrame {
                 db.removeRow(x);
             }
         }
+    }
+        
+    public static void Registro_Dep_Ret(String s, String Cuenta, String Operacion, String Lote){
+        PreparedStatement Declaracion;
+        ResultSet result;
+
+        try{
+            Declaracion= Conexion.prepareStatement("EXEC REGISTRO_DEP_RET ?, ?, ?, ?");
+            Declaracion.setString(1,s);
+            Declaracion.setString(2,Cuenta);
+            Declaracion.setString(3,Operacion);
+            Declaracion.setString(4,Lote);
+            result = Declaracion.executeQuery();
+            while(result.next()){
+               JOptionPane.showMessageDialog(null, result.toString());
+                
+            }
+            System.out.println("Ejecutado");
+        }catch(Exception e) {System.out.println(e);}
+        
     }
     //metodo agregar ListadeTransacciones
     public static ArrayList<Transacciones> AgregarDatosTrans(ArrayList<Transacciones> ListaTransacciones,File f) {
