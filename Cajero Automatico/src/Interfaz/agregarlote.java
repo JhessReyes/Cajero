@@ -5,7 +5,10 @@
  */
 package Interfaz;
 
+import static Interfaz.Login.idUser;
+import static Interfaz.Main.Conexion;
 import static Interfaz.Main.gest;
+import static Interfaz.Time.FeYHo;
 import clases.cajero;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,6 +16,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.logging.Level;
@@ -218,7 +223,34 @@ public class agregarlote extends javax.swing.JInternalFrame {
         gest.setVisible(true);
 
     }
-
+    public void AGREGAR(){
+        PreparedStatement Declaracion;
+        ResultSet result;
+         int a,b,c,d,e,f,g;
+        a= Integer.valueOf(jtbilletes1.getText().trim());
+        b= Integer.valueOf(jtbilletes2.getText().trim());
+        c= Integer.valueOf(jtbilletes3.getText().trim());
+        d= Integer.valueOf(jtbilletes4.getText().trim());
+        e= Integer.valueOf(jtbilletes5.getText().trim());
+        f= Integer.valueOf(jtbilletes6.getText().trim());
+        g= Integer.valueOf(jtbilletes7.getText().trim());
+        try{
+            Declaracion= Conexion.prepareStatement("EXEC AGREGAR_EFECTIVO ?,?,?,?,?,?,?,?,?");
+            Declaracion.setInt(1, a);
+            Declaracion.setInt(2, b);
+            Declaracion.setInt(3, c);
+            Declaracion.setInt(4, d);
+            Declaracion.setInt(5, e);
+            Declaracion.setInt(6, f);
+            Declaracion.setInt(7, g);
+            Declaracion.setString(8,FeYHo.getText());
+            Declaracion.setString(9, idUser);
+            result = Declaracion.executeQuery();
+            while(result.next()){
+            JOptionPane.showMessageDialog(null, ""+result.getString("ESTADO"));
+            }
+        }catch (Exception R) {System.out.println(R);}
+    }
     public void limpiartxt(File f) {
 
         BufferedWriter bw;
@@ -545,7 +577,8 @@ public class agregarlote extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jtbilletes2ActionPerformed
 
     private void jbguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbguardarActionPerformed
-        AgregarDatosB(billete);
+        //AgregarDatosB(billete);
+        AGREGAR();
         limpiar();
     }//GEN-LAST:event_jbguardarActionPerformed
 

@@ -6,7 +6,9 @@
 package Interfaz;
 
 import static Interfaz.Login.idUser;
+import static Interfaz.Main.Conexion;
 import static Interfaz.Main.gest;
+import static Interfaz.Time.FeYHo;
 import clases.TarjetaU;
 import clases.usuarios;
 import java.io.BufferedReader;
@@ -15,6 +17,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -234,6 +238,23 @@ public class modificarTarjeta extends javax.swing.JInternalFrame {
         gest.setVisible(true);
     }
     
+    public void modificar(){
+        PreparedStatement Declaracion;
+        ResultSet result;
+        try{
+            Declaracion= Conexion.prepareStatement("EXEC MODIFICAR_TARJETA ?,?,?,?");
+            Declaracion.setString(1,idUser);
+            Declaracion.setString(2,FeYHo.getText());
+            Declaracion.setString(3,jTextField2.getText().trim());
+            Declaracion.setString(4,jTextField1.getText().trim());
+            result = Declaracion.executeQuery();
+            while(result.next()){
+            }
+            System.out.println("TARJETA MODIFICADO");
+        }catch(Exception e) {System.out.println(e);}
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -349,10 +370,13 @@ public class modificarTarjeta extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        cambpin();
-        cambtarjeta();
-        
-        
+//        cambpin();
+        if(jTextField2.getText().trim().length()!=14
+               || jTextField1.getText().trim().length()!=14) 
+            JOptionPane.showMessageDialog(null, "INGRESE DATOS VALIDOS (16 caracteres)");
+        modificar();
+        limpiar();
+       // cambtarjeta();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

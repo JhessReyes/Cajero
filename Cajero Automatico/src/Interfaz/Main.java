@@ -122,7 +122,6 @@ public class Main extends javax.swing.JFrame {
                JOptionPane.showMessageDialog(null, result.toString());
                 
             }
-            System.out.println("Ejecutado");
         }catch(Exception e) {System.out.println(e);}
         
     }

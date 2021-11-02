@@ -5,7 +5,10 @@
  */
 package Interfaz;
 
+import static Interfaz.Login.idUser;
+import static Interfaz.Main.Conexion;
 import static Interfaz.Main.gest;
+import static Interfaz.Time.FeYHo;
 import clases.TarjetaU;
 import clases.cajero;
 import clases.usuarios;
@@ -15,6 +18,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -170,6 +175,7 @@ public class iniciarcajero extends javax.swing.JInternalFrame {
         if(dif >0 ){
             JOptionPane.showMessageDialog(null, "CONFIGURACION ACEPTADA, PUEDE GUARDAR");
             this.jbguardar.setVisible(true);
+            
         }
         if(dif<0){
             JOptionPane.showMessageDialog(null, "NO SE PUEDE GUARDAR ESTA CONFIGURACION");
@@ -191,7 +197,36 @@ public class iniciarcajero extends javax.swing.JInternalFrame {
         gest.setVisible(true);
     
     }
-
+    
+    public void INICIALIZAR(){
+        PreparedStatement Declaracion;
+        ResultSet result;
+         int a,b,c,d,e,f,g;
+        a= Integer.valueOf(jtbilletes1.getText().trim());
+        b= Integer.valueOf(jtbilletes2.getText().trim());
+        c= Integer.valueOf(jtbilletes3.getText().trim());
+        d= Integer.valueOf(jtbilletes4.getText().trim());
+        e= Integer.valueOf(jtbilletes5.getText().trim());
+        f= Integer.valueOf(jtbilletes6.getText().trim());
+        g= Integer.valueOf(jtbilletes7.getText().trim());
+        try{
+            Declaracion= Conexion.prepareStatement("EXEC INICIALIZAR_CAJA ?,?,?,?,?,?,?,?,?");
+            Declaracion.setInt(1, a);
+            Declaracion.setInt(2, b);
+            Declaracion.setInt(3, c);
+            Declaracion.setInt(4, d);
+            Declaracion.setInt(5, e);
+            Declaracion.setInt(6, f);
+            Declaracion.setInt(7, g);
+            Declaracion.setString(8,FeYHo.getText());
+            Declaracion.setString(9, idUser);
+            result = Declaracion.executeQuery();
+            while(result.next()){
+            JOptionPane.showMessageDialog(null, ""+result.getString("ESTADO"));
+            }
+        }catch (Exception R) {System.out.println(R);}
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -533,8 +568,9 @@ public class iniciarcajero extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jbguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbguardarActionPerformed
-                AgregarDatosB(billete);
-                limpiar();            
+        //AgregarDatosB(billete);
+        INICIALIZAR();
+        limpiar();            
     }//GEN-LAST:event_jbguardarActionPerformed
 
     private void jbsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbsalirActionPerformed

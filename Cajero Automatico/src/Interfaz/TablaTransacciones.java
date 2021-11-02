@@ -5,8 +5,14 @@
  */
 package Interfaz;
 
+import static Interfaz.Login.idUser;
+import static Interfaz.Main.Conexion;
+import static Interfaz.Main.RemoveDatos;
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -34,6 +40,7 @@ public class TablaTransacciones extends javax.swing.JInternalFrame {
         jTable.setForeground(Color.black);
         jTable.setBackground(new Color(0,255,120));
         this.jTable.setModel(model);
+        Transacciones("5");
     }
 
     /**
@@ -47,6 +54,10 @@ public class TablaTransacciones extends javax.swing.JInternalFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable = new javax.swing.JTable();
+        jSpinTran = new javax.swing.JSpinner();
+        jLabel1 = new javax.swing.JLabel();
+        jTipoOp = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -66,6 +77,18 @@ public class TablaTransacciones extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jTable);
 
+        jSpinTran.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinTranStateChanged(evt);
+            }
+        });
+
+        jLabel1.setText("Cantidad de Transacciones");
+
+        jTipoOp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Retiros", "Depositos", " " }));
+
+        jLabel2.setText("Tipo");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -74,21 +97,72 @@ public class TablaTransacciones extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTipoOp, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSpinTran, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jSpinTran, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTipoOp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jSpinTranStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinTranStateChanged
+        // TODO add your handling code here:
+        String Cantidad;
+        Cantidad = jSpinTran.getValue().toString().trim();
+        if(Integer.valueOf(Cantidad)>0){
+            Transacciones(Cantidad);            
+        }else JOptionPane.showMessageDialog(null, "DEBE INGRESAR UN VALOR VALIDO");
+    }//GEN-LAST:event_jSpinTranStateChanged
+
+    public void Transacciones(String Cantidad){
+        RemoveDatos(jTable, model);
+        PreparedStatement Declaracion;
+        ResultSet result;
+        int Tipo = jTipoOp.getSelectedIndex();
+        try{
+            Declaracion= Conexion.prepareStatement("EXEC ULTIMAS_TRANSACCIONES ?, ?,?");
+            Declaracion.setInt(1, Tipo);
+            Declaracion.setString(2, idUser);
+            Declaracion.setString(3, Cantidad);
+            result = Declaracion.executeQuery();
+            while(result.next()){
+                String[] info = new String[5];
+                info[0] = result.getString("ID_TRANSACCION");
+                info[1] = result.getString("TIPO_OPERACION");
+                info[2] = result.getString("TOTAL");
+                info[3] = result.getString("FECHA_HORA");
+                model.addRow(info);
+            }
+        }catch(Exception e) {System.out.println(e);}
+            
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner jSpinTran;
     public static javax.swing.JTable jTable;
+    private javax.swing.JComboBox<String> jTipoOp;
     // End of variables declaration//GEN-END:variables
 }

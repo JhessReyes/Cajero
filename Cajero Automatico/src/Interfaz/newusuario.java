@@ -410,8 +410,8 @@ public class newusuario extends javax.swing.JInternalFrame {
 
         jLabel5.setText("TIPO USUARIO");
 
-        jLabel6.setText("ID USUARIO");
-
+        jtid.setEditable(false);
+        jtid.setEnabled(false);
         jtid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtidActionPerformed(evt);
@@ -443,7 +443,7 @@ public class newusuario extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel14.setText("usuario || admin");
+        jLabel14.setText("2 usuario || 1 admin");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -478,7 +478,7 @@ public class newusuario extends javax.swing.JInternalFrame {
                             .addComponent(jtipous, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtntarjeta, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtpass)
-                            .addComponent(jtid))
+                            .addComponent(jtid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel14)
@@ -549,7 +549,7 @@ public class newusuario extends javax.swing.JInternalFrame {
                         .addComponent(jButton2)
                         .addGap(19, 19, 19)
                         .addComponent(jLabel11)
-                        .addGap(0, 83, Short.MAX_VALUE))
+                        .addGap(0, 87, Short.MAX_VALUE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -560,17 +560,13 @@ public class newusuario extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jLabel11))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jtidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtidActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtidActionPerformed
 
     private void jtnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtnombreActionPerformed
         // TODO add your handling code here:
@@ -617,6 +613,10 @@ public class newusuario extends javax.swing.JInternalFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         comprobar();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jtidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtidActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtidActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

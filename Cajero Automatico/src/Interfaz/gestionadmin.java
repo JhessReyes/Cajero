@@ -184,13 +184,14 @@ public class gestionadmin extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btiniciarcActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (cnt != 0) {
-            lote.setVisible(true);
-            this.setVisible(false);
-        } else {
-            JOptionPane.showMessageDialog(null, "NO A INICIADO CAJA");
-        }
-
+//        if (cnt != 0) {
+//            lote.setVisible(true);
+//            this.setVisible(false);
+//        } else {
+//            JOptionPane.showMessageDialog(null, "NO A INICIADO CAJA");
+//        }
+        lote.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed

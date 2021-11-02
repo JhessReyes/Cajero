@@ -8,6 +8,7 @@ package Interfaz;
 import static Interfaz.Main.AgregarDatosTJs;
 import static Interfaz.Main.AgregarDatosTrans;
 import static Interfaz.Main.AgregarDatosU;
+import static Interfaz.Main.Conexion;
 import static Interfaz.Main.RemoveDatos;
 import static Interfaz.Main.gest;
 import clases.TarjetaU;
@@ -17,7 +18,10 @@ import clases.usuarios;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -45,6 +49,8 @@ public class ConsultaUsuario extends javax.swing.JInternalFrame {
         this.ListaTran = AgregarDatosTrans(ListaTran,tr);
         
         model2 = new DefaultTableModel();
+        model2.addColumn("Limite Retiro");
+        model2.addColumn("Retirado Hoy");
         model2.addColumn("Retiro Disponible");
         model2.addColumn("Total Retiros");
         model2.addColumn("Saldo Actual");
@@ -129,6 +135,27 @@ public class ConsultaUsuario extends javax.swing.JInternalFrame {
         return id;
     }
     
+    public void Consultar(){
+        PreparedStatement Declaracion;
+        ResultSet result;
+        RemoveDatos(this.jTUser,model2);
+        try{
+            Declaracion= Conexion.prepareStatement("EXEC CONSULTA_USUARIO ?");
+            Declaracion.setString(1, jTarjeta.getText().trim());
+            result = Declaracion.executeQuery();
+            while(result.next()){ 
+                String[] info = new String[7];
+                info[0] = result.getString("LIMITE_RETIRO");
+                info[1] = result.getString("RETIRADO HOY");
+                info[2] = result.getString("RETIRO DISPONIBLE");
+                info[3] = result.getString("TOTAL RETIROS");
+                info[4] = result.getString("SALDO DISPONIBLE");
+                info[5] = result.getString("ULTIMO ACCESO");
+                model2.addRow(info);
+            }
+        }catch(Exception e) {System.out.println(e);}
+    }
+    
     public void salir(){
         this.jTarjeta.setText("");
         this.setVisible(false);
@@ -194,10 +221,10 @@ public class ConsultaUsuario extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTarjeta, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jTarjeta)
                 .addGap(44, 44, 44)
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
@@ -222,14 +249,12 @@ public class ConsultaUsuario extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(99, 99, 99)
-                        .addComponent(jLabel2)))
-                .addGap(0, 10, Short.MAX_VALUE))
+                        .addComponent(jLabel2)
+                        .addGap(0, 160, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -239,7 +264,7 @@ public class ConsultaUsuario extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -251,7 +276,8 @@ public class ConsultaUsuario extends javax.swing.JInternalFrame {
         this.ListaTarjeta = AgregarDatosTJs(ListaTarjeta,tar);
         this.ListaUsuarios = AgregarDatosU(ListaUsuarios,us);
         this.ListaTran = AgregarDatosTrans(ListaTran,tr);
-        Consulta();
+       // Consulta();
+        Consultar();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

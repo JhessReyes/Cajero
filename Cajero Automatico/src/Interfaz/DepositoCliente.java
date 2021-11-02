@@ -291,12 +291,11 @@ public class DepositoCliente extends javax.swing.JInternalFrame {
             Declaracion.setString(7,jtbilletes7.getText().trim());
             result = Declaracion.executeQuery();
             while(result.next()){
-                System.out.println(result.getString("ID_LOTE"));
                 //AgregarSaldoCuenta();
                 Registro_Dep_Ret(FeYHo.getText(),idUser,"2",result.getString("ID_LOTE"));
                 
             }
-            System.out.println("Ejecutado");
+            System.out.println("DEPOSITO Ejecutado");
             //Conexion.close();
         }catch(Exception e) {System.out.println(e);}
         }
@@ -587,7 +586,7 @@ public class DepositoCliente extends javax.swing.JInternalFrame {
         Depositar();
         deposito(jtsuma.getText());
         //this.jbguardar.setVisible(true);
-        AgregarDatosB(billete);
+        //AgregarDatosB(billete);
         this.setVisible(false);
         gcli.setVisible(true);
         limpiar();

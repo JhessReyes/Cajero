@@ -137,6 +137,8 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
     public void BilletesCajero(){
         PreparedStatement Declaracion;
         ResultSet result;
+        PreparedStatement Dec;
+        ResultSet res;
         String Retiro;
         Retiro = JOptionPane.showInputDialog(null, "CUANTO DESEA RETIRAR", "RETIRO", 3);
         try{
@@ -153,13 +155,13 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
                 int b6=result.getInt("Q100");
                 int b7=result.getInt("Q200");
                 int rts =Integer.valueOf(Retiro);
-                if(b7>=B7(rts,0)){ b7-=B7(rts,0); rts-=200*B7(rts,0);}
-                if(b6>=B6(rts,0)){ b6-=B6(rts,0); rts-=100*B6(rts,0);}
-                if(b5>=B5(rts,0)){ b5-=B5(rts,0); rts-=50*B5(rts,0);}
-                if(b4>=B4(rts,0)){ b4-=B4(rts,0); rts-=20*B4(rts,0);}
-                if(b3>=B3(rts,0)){ b3-=B3(rts,0); rts-=10*B3(rts,0);}
-                if(b2>=B2(rts,0)){ b2-=B2(rts,0); rts-=5*B2(rts,0);}
-                if(b1>=B1(rts,0)){ b1-=B1(rts,0); rts-=1*B1(rts,0);}
+                if(b7>=B7(rts,0)){ b7=B7(rts,0); rts-=200*B7(rts,0);}
+                if(b6>=B6(rts,0)){ b6=B6(rts,0); rts-=100*B6(rts,0);}
+                if(b5>=B5(rts,0)){ b5=B5(rts,0);  rts-=50*B5(rts,0);}
+                if(b4>=B4(rts,0)){ b4=B4(rts,0); rts-=20*B4(rts,0);}
+                if(b3>=B3(rts,0)){ b3=B3(rts,0); rts-=10*B3(rts,0);}
+                if(b2>=B2(rts,0)){ b2=B2(rts,0); rts-=5*B2(rts,0);}
+                if(b1>=B1(rts,0)){ b1=B1(rts,0); rts-=1*B1(rts,0);}
                 //bsl-=rts;
 
                 if(rts==0){ 
@@ -167,8 +169,15 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
                 }else{
                     JOptionPane.showMessageDialog(null, "NO HAY SALDO/BILLETES SUFICIENTES PARA EL RETIRO EN EL CAJERO: ");
                 }
-                //Registro_Dep_Ret(FeYHo.getText(),idUser,"2",result.getString("ID_LOTE"));
-                
+
+                Dec= Conexion.prepareStatement("SELECT SALDO FROM Cuentas WHERE ID_CUENTA=?");
+                Dec.setString(1, idUser);
+                res = Dec.executeQuery();
+                while(res.next()){
+                    if(Integer.valueOf(Retiro)>Integer.valueOf(res.getString("SALDO"))){
+                        JOptionPane.showMessageDialog(null, "EL SALDO DE LA CUENTA ES INSUFICIENTE PARA REALIZAR EL RETIRO");
+                    }
+                }
             }
             
         }catch (Exception e){System.out.println(e);}
@@ -187,12 +196,12 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
             Declaracion.setInt(7,Q200);
             result = Declaracion.executeQuery();
             while(result.next()){
-                System.out.println(result.getString("ID_LOTE"));
+                //System.out.println(result.getString("ID_LOTE"));
                 //AgregarSaldoCuenta();
                 Registro_Dep_Ret(FeYHo.getText(),idUser,"1",result.getString("ID_LOTE"));
                 
             }
-            System.out.println("Ejecutado");
+            System.out.println("RETIRO Ejecutado");
             //Conexion.close();
         }catch(Exception e) {System.out.println(e);}
     }
@@ -485,9 +494,10 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
                     nuevopin = "";
                     JOptionPane.showMessageDialog(null, "Ingrese un PIN de 4 caracteres");
                 }
-                Declaracion= Conexion.prepareStatement("Execute CAMBIAR_PIN ?,?");
-                Declaracion.setString(1,idUser);
-                Declaracion.setString(2,nuevopin.isBlank()==false? nuevopin:resultado.getString("PIN"));
+                Declaracion= Conexion.prepareStatement("Execute CAMBIAR_PIN ?, ?,?");
+                Declaracion.setString(1,FeYHo.getText());
+                Declaracion.setString(2,idUser);
+                Declaracion.setString(3,nuevopin.isBlank()==false? nuevopin:resultado.getString("PIN"));
                 Declaracion.executeQuery();            
             }
         }catch(Exception e) {System.out.println(e);}
@@ -495,13 +505,27 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
 
     //metodo para mostrar saldos disponibles
     public void saldos() {
-        limiteDiario();
-        String Sal = ListaTarjetas.get(Integer.valueOf(idUser)).getSaldo();
-        String retiro = ListaTarjetas.get(Integer.valueOf(idUser)).getLRetiro();
-        JOptionPane.showMessageDialog(null, "• Monto máximo de retiro     Q. " + retiro + "\n"
-                + "• Monto máximo de retiro diario disponible  Q. " + RetiroDisp + "\n"
-                + "• Saldo Actual   Q. " + Sal + "\n"
-                + "• Total Retirado hoy  Q. " + limiteDiario());
+//        limiteDiario();
+//        String Sal = ListaTarjetas.get(Integer.valueOf(idUser)).getSaldo();
+//        String retiro = ListaTarjetas.get(Integer.valueOf(idUser)).getLRetiro();
+//        JOptionPane.showMessageDialog(null, "• Monto máximo de retiro     Q. " + retiro + "\n"
+//                + "• Monto máximo de retiro diario disponible  Q. " + RetiroDisp + "\n"
+//                + "• Saldo Actual   Q. " + Sal + "\n"
+//                + "• Total Retirado hoy  Q. " + limiteDiario());
+        
+        PreparedStatement Declaracion;
+        ResultSet result;
+        try{
+            Declaracion= Conexion.prepareStatement("EXEC SALDOS_CUENTA ?");
+            Declaracion.setString(1, idUser);
+            result = Declaracion.executeQuery();
+            while(result.next()){
+            JOptionPane.showMessageDialog(null, "• Monto máximo de retiro \t Q. " + result.getString("LIMITE DIARIO") + "\n"
+                + "• Monto máximo de retiro diario disponible \t Q. " + result.getString("LIMITE DISPONIBLE") + "\n"
+                + "• Saldo Actual \t  Q. " + result.getString("SALDO DISPONIBLE") + "\n"
+                + "• Total Retirado hoy \t Q. " + result.getString("TOTAL RETIRADO HOY"));
+            }
+        }catch (Exception e) {System.out.println(e);}
     }
     
     public void Denominaciones(String ret) {
@@ -582,7 +606,7 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
 //        }
     }
 
-    public void RemoveDatos(JTable tb, DefaultTableModel db) {
+    public static void RemoveDatos(JTable tb, DefaultTableModel db) {
         int fil = tb.getRowCount();
         if (fil >= 0) {
             for (int x = fil - 1; x >= 0; x--) {
@@ -945,7 +969,19 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         AgregarDatosB(billete);
         AgregarDatosTJ(tarjetas);
-        Denominaciones("0");
+        //Denominaciones("0");
+        PreparedStatement Declaracion;
+        ResultSet result;
+        try{
+            Declaracion= Conexion.prepareStatement("SELECT * FROM Lote_Billetes WHERE ID_LOTE = 1");
+            result = Declaracion.executeQuery();
+            while(result.next()){
+                JOptionPane.showMessageDialog(null, "BILLETES DISPONIBLES\n"+
+                "Q1 "+result.getString("Q1")+"\n"+"Q5 "+result.getString("Q5")+"\n"+"Q10 "+result.getString("Q10")+"\n"+"Q20 "+result.getString("Q20")+"\n"+"Q50 "+result.getString("Q50")+"\n"+"Q100 "+result.getString("Q100")+"\n"+"Q200 "+result.getString("Q200")+"\n"
+                + "EL SALDO ACTUAL DEL CAJERO ES DE: " + result.getString("TOTAL"));
+                
+            }
+        }catch(Exception e) {System.out.println(e);}
     }//GEN-LAST:event_jbbillActionPerformed
 
     ArrayList<Transacciones> ListaTran;
@@ -962,7 +998,7 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
 
     private void jbUltTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbUltTransActionPerformed
         // TODO add your handling code here:
-        tabla();
+        //tabla();
         tabtran.setVisible(true);
     }//GEN-LAST:event_jbUltTransActionPerformed
 
