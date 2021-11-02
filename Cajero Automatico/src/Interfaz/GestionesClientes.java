@@ -483,7 +483,7 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
         PreparedStatement pin;
         ResultSet resultado;
         String nuevopin;
-        nuevopin = JOptionPane.showInputDialog(null, "Ingrese su nuevo pin", "NUEVO PIN", 3);
+        nuevopin = JOptionPane.showInputDialog(null, "Ingrese su nuevo pin (solo 4 caracteres)", "NUEVO PIN", 3);
 
         try{
             pin = Conexion.prepareStatement("Execute OBTENER_PIN ?");
@@ -945,7 +945,7 @@ public class GestionesClientes extends javax.swing.JInternalFrame {
 
     private void jbRetiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRetiroActionPerformed
         // TODO add your handling code here:
-        AgregarDatosTJ(tarjetas);
+       // AgregarDatosTJ(tarjetas);
         //retiro();
         BilletesCajero();
     }//GEN-LAST:event_jbRetiroActionPerformed

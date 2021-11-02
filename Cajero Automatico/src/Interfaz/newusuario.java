@@ -21,6 +21,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -279,8 +280,10 @@ public class newusuario extends javax.swing.JInternalFrame {
         if (pin.length() == 4) {
             if (numtj.length() == 16) {
                 if (tpusuario.equals("1") || tpusuario.equals("2")) {
-                    JOptionPane.showMessageDialog(null, "CONFIGURACION ACEPTADA, PUEDE GUARDAR");
-                    this.jButton1.setVisible(true);
+                    if(!jtnombre.getText().isEmpty()&&!jtapellido.getText().isEmpty()){
+                        JOptionPane.showMessageDialog(null, "CONFIGURACION ACEPTADA, PUEDE GUARDAR");
+                        this.jButton1.setVisible(true);                        
+                    }else JOptionPane.showMessageDialog(null, "DEBE COMPLETAR LOS CAMPOS");
                 } else {
                     JOptionPane.showMessageDialog(null, "EL TIPO DE USUARIO ESTA MAL");
                 }
@@ -295,8 +298,9 @@ public class newusuario extends javax.swing.JInternalFrame {
     
         public void Nueva_Cuenta(){
         PreparedStatement Declaracion;
+        ResultSet result;
         try{
-            Declaracion= Conexion.prepareStatement("INSERT INTO Cuentas VALUES(?, ?, ?, ?, ?, ?, ?)");
+            Declaracion= Conexion.prepareStatement("EXEC NEWUSER ?, ?, ?, ?, ?, ?, ?");
             Declaracion.setString(1,jtnombre.getText().trim());
             Declaracion.setString(2,jtapellido.getText().trim());
             Declaracion.setString(3,jtipous.getText().trim());
@@ -304,7 +308,10 @@ public class newusuario extends javax.swing.JInternalFrame {
             Declaracion.setString(5,jtpass.getText().trim());
             Declaracion.setString(6,jtlimret.getText().trim());
             Declaracion.setString(7,jtsaldoi.getText().trim());
-            Declaracion.executeUpdate();
+            result = Declaracion.executeQuery();
+            while(result.next()){
+                JOptionPane.showMessageDialog(null, result.getString("ESTADO"));
+            }
             System.out.println("Ejecutado");
             //Conexion.close();
         }catch(Exception e) {System.out.println(e);}

@@ -249,6 +249,7 @@ public class modificarTarjeta extends javax.swing.JInternalFrame {
             Declaracion.setString(4,jTextField1.getText().trim());
             result = Declaracion.executeQuery();
             while(result.next()){
+                JOptionPane.showMessageDialog(null, result.getString("ESTADO"));
             }
             System.out.println("TARJETA MODIFICADO");
         }catch(Exception e) {System.out.println(e);}
@@ -371,10 +372,11 @@ public class modificarTarjeta extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 //        cambpin();
-        if(jTextField2.getText().trim().length()!=14
-               || jTextField1.getText().trim().length()!=14) 
-            JOptionPane.showMessageDialog(null, "INGRESE DATOS VALIDOS (16 caracteres)");
+        if(jTextField2.getText().trim().length()==16
+               || jTextField1.getText().trim().length()==16){
         modificar();
+        }else JOptionPane.showMessageDialog(null, "INGRESE DATOS VALIDOS (16 caracteres)");
+       
         limpiar();
        // cambtarjeta();
     }//GEN-LAST:event_jButton1ActionPerformed

@@ -49,9 +49,14 @@ public class Main extends javax.swing.JFrame {
     static ControlUsuarios ctrlu = new ControlUsuarios();
     static ConsultaUsuario conus = new ConsultaUsuario();
     static DepositoCliente depcli = new DepositoCliente();
-    private static String Url = "jdbc:sqlserver://localhost:1433;databaseName=Cajero;";
-    private static String BDUser = "Admin";
-    private static String BDPass = "0000";
+//    private static String Url = "jdbc:sqlserver://localhost:1433;databaseName=Cajero;";
+//    private static String BDUser = "Admin";
+//    private static String BDPass = "0000";
+    private static String Url = "jdbc:sqlserver://BDArbol.mssql.somee.com;databaseName=BDArbol;";
+    private static String BDUser = "Jhonatan15_SQLLogin_1";
+    private static String BDPass = "qk6hjak344";
+    
+    
     static Connection Conexion = null;
     
     /**
@@ -119,7 +124,7 @@ public class Main extends javax.swing.JFrame {
             Declaracion.setString(4,Lote);
             result = Declaracion.executeQuery();
             while(result.next()){
-               JOptionPane.showMessageDialog(null, result.toString());
+               JOptionPane.showMessageDialog(null, result.getString("ESTADO"));
                 
             }
         }catch(Exception e) {System.out.println(e);}

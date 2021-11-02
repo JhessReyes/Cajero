@@ -157,6 +157,7 @@ public class modificarLimite extends javax.swing.JInternalFrame {
             Declaracion.setString(4,jtnuevolim.getText().trim());
             result = Declaracion.executeQuery();
             while(result.next()){
+                JOptionPane.showMessageDialog(null, result.getString("ESTADO"));
             }
             System.out.println("LIMITE MODIFICADO");
         }catch(Exception e) {System.out.println(e);}
@@ -277,8 +278,9 @@ public class modificarLimite extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //cambtarjeta();
-        if(jttarjetanum.getText().trim().length()!=14) JOptionPane.showMessageDialog(null, "INGRESE UN NUMERO DE TARJETA CORRECTO");
-        modificar();
+        if(jttarjetanum.getText().trim().length()==16){
+         modificar();
+        }else JOptionPane.showMessageDialog(null, "INGRESE UN NUMERO DE TARJETA CORRECTO");
         limpiar();
     }//GEN-LAST:event_jButton1ActionPerformed
 
